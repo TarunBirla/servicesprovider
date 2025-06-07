@@ -1,21 +1,54 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form method="POST" action="{{ url('register/associate') }}">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="{{ route('register.associate') }}" method="POST">
         @csrf
-        <input type="text" name="name" placeholder="Full Name" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
-
-        <select name="plan_id" required>
-            <option value="">Select a Plan</option>
-            @foreach ($plans as $plan)
-                <option value="{{ $plan->id }}">{{ $plan->name }} ({{ $plan->service_limit }} services)</option>
-            @endforeach
-        </select>
-
-        <button type="submit">Register</button>
+        <div class="form-group  {{ $errors->has('name') ? 'has-error' : '' }}">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}" required>
+            @if ($errors->has('name'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('name') }}</strong>
+                </span>
+            @endif
+        </div>
+        <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required>
+            @if ($errors->has('email'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('email') }}</strong>  
+                </span>
+            @endif
+        </div>
+        <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" class="form-control" required>
+            @if ($errors->has('password'))
+                <span class="help-block">           
+                    <strong>{{ $errors->first('password') }}</strong>
+                </span> 
+            @endif
+        </div>
+        <div class="form-group {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
+            <label for="password_confirmation">Confirm Password</label>
+            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required>
+            @if ($errors->has('password_confirmation'))
+                <span class="help-block
+                    <strong>{{ $errors->first('password_confirmation') }}</strong>
+                </span>
+            @endif
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Register</button> 
+            <a href="{{ route('login') }}" class="btn btn-secondary">Already have an account? Login</a>
+        </div>
     </form>
-</x-guest-layout>
+
+</body>
+</html>
