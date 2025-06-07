@@ -12,8 +12,15 @@ class ServiceController extends Controller
     public function index()
     {
         $services = Service::with(['category', 'state', 'district', 'assembly', 'city'])
-            ->where('user_id', auth()->id())
-            ->get();
+                        ->where('user_id', auth()->id())
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(10);
+        if ($services->isEmpty()) {
+            return redirect()->route('services.create')->with('info', 'No services found. Please create a service.');
+        }
+        if (auth()->user()->role !== 'associate') {
+            return redirect()->route('dashboard')->with('error', 'You do not have permission to view this page.');
+        }
 
         return view('associate.services.index', compact('services'));
     }
