@@ -9,6 +9,13 @@ use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
+
+    public function index()
+    {
+        return view('locations.index');
+    }
+    
+
     public function getDistricts($state_id)
     {
         return response()->json(District::where('state_id', $state_id)->get());
