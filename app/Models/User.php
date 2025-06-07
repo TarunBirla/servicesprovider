@@ -12,6 +12,32 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+
+        public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
+
+    public function assembly()
+    {
+        return $this->belongsTo(Assembly::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    public function services()
+    {
+        return $this->hasMany(Service::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *
