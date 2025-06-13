@@ -3,8 +3,12 @@
       <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
           <a href="./index.html" class="text-nowrap logo-img">
+<<<<<<< HEAD
             <!-- <img src="https://sewamitra.up.gov.in/images/SewaMitra.png" alt="" /> -->
              Service Management
+=======
+            <img src="{{asset('assets/associate/assets/images/logos/logo.svg')}}" alt="" />
+>>>>>>> 984eb22d97fcb297de473ab875d6ad398207b625
           </a>
           <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
             <i class="ti ti-x fs-6"></i>

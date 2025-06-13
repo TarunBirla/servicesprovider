@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Plan;
+<<<<<<< HEAD
 use App\Models\Associate;
+=======
+>>>>>>> 984eb22d97fcb297de473ab875d6ad398207b625
 use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
@@ -19,6 +22,7 @@ class RegisterController extends Controller
         return view('auth.register_associate', compact('plans'));
     }
 
+<<<<<<< HEAD
     public function registerAssociate(Request $request)
 {
     $count = count($request->associate_name);
@@ -75,4 +79,30 @@ class RegisterController extends Controller
     // }
 
     
+=======
+    /**
+     * Handle the registration of a new associate.
+     */
+    public function registerAssociate(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'confirmed', 'min:8'],
+            'plan_id' => ['required', 'exists:plans,id'],
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'associate',
+            'plan_id' => $request->plan_id,
+        ]);
+
+        Auth::login($user);
+
+        return redirect()->route('dashboard')->with('success', 'Registration successful!');
+    }
+>>>>>>> 984eb22d97fcb297de473ab875d6ad398207b625
 }

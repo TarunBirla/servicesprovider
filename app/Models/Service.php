@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Service extends Model
 {
     protected $fillable = [
+<<<<<<< HEAD
         'user_id',
         'title',
         'type',
@@ -24,6 +25,13 @@ class Service extends Model
     ];
 
 
+=======
+        'user_id', 'plan_id', 'category_id',
+        'title', 'description', 'price', 'image', 'status',
+        'state_id', 'district_id', 'assembly_id', 'city_id'
+    ];
+
+>>>>>>> 984eb22d97fcb297de473ab875d6ad398207b625
     public function user()
     {
         return $this->belongsTo(User::class);

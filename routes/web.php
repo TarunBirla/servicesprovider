@@ -42,10 +42,16 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
 Route::middleware(['auth', 'is_associate'])->group(function () {
     Route::get('/associate/dashboard', [AssociateController::class, 'index'])->name('associate.dashboard');
     Route::get('/associate/services', [ServiceController::class, 'index'])->name('services.index');
+<<<<<<< HEAD
 });
     Route::post('/associate/services', [ServiceController::class, 'store'])->name('services.store');
 
     Route::get('/associate/services/create', [ServiceController::class, 'create'])->name('services.create');
+=======
+    Route::get('/associate/services/create', [ServiceController::class, 'create'])->name('services.create');
+    Route::post('/associate/services', [ServiceController::class, 'store'])->name('services.store');
+});
+>>>>>>> 984eb22d97fcb297de473ab875d6ad398207b625
 
 Route::get('register/associate', [RegisterController::class, 'showAssociateForm'])->name('register.associate');
 Route::post('register/associate', [RegisterController::class, 'registerAssociate'])->name('register.associate.submit');
@@ -63,6 +69,7 @@ Route::get('/get-assemblies/{district_id}', [LocationController::class, 'getAsse
 Route::get('/get-cities/{assembly_id}', [LocationController::class, 'getCities']);
 
 Route::get('/', function () { 
+<<<<<<< HEAD
     return view('user.login');
 })->name('home');
 Route::get('/search', function () { 
@@ -73,6 +80,8 @@ Route::get('/searchtable', function () {
 })->name('home');
 
 Route::get('/afterlogin', function () { 
+=======
+>>>>>>> 984eb22d97fcb297de473ab875d6ad398207b625
     return view('user.index');
 })->name('home');
 

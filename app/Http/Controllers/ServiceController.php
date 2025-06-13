@@ -32,6 +32,7 @@ class ServiceController extends Controller
         return view('associate.services.create', compact('states', 'categories'));
     }
 
+<<<<<<< HEAD
 public function store(Request $request)
 {
     $validated = $request->validate([
@@ -99,4 +100,31 @@ public function store(Request $request)
 
     //     return redirect()->route('services.index')->with('success', 'Service created successfully.');
     // }
+=======
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'price' => 'required|numeric',
+            'description' => 'nullable',
+            'image' => 'nullable|image',
+            'state_id' => 'nullable|exists:states,id',
+            'district_id' => 'nullable|exists:districts,id',
+            'assembly_id' => 'nullable|exists:assemblies,id',
+            'city_id' => 'nullable|exists:cities,id',
+        ]);
+
+        $data = $request->all();
+        $data['user_id'] = auth()->id();
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('services', 'public');
+        }
+
+        Service::create($data);
+
+        return redirect()->route('services.index')->with('success', 'Service created successfully.');
+    }
+>>>>>>> 984eb22d97fcb297de473ab875d6ad398207b625
 }
