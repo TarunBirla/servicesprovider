@@ -7,11 +7,11 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
     body { background: #EF6603; }
-    .section {  padding: 20px; border-radius: 8px; }
+    .section {  padding: 20px; border-radius: 8px;  margin-top: 30px; }
     .form-label { font-weight: bold; }
    .other-revenue-form {
-  margin: 30px 0;
-  padding: 20px;
+  /* margin: 30px 0; */
+  /* padding: 20px; */
   border: 1px solid #fff;
   border-radius: 10px;
   background-color: #fff;
@@ -44,7 +44,7 @@
       {{ session('error') }}
     </div>
   @endif
-        <h3 class="text-center text-white mt-4">Professional Details</h3>
+        <h3 class="text-center mt-4">Professional Details</h3>
   <form id="professionalForm" action="{{ route('services.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="section" id="formContainer">
@@ -56,15 +56,13 @@
       <button type="button" id="addMoreBtn" class="btn btn-success">+ Add More</button>
     </div>
 
-    <div class="text-center mt-4 mb-4">
+    <div class="text-center mt-4">
       <button type="submit" class="btn btn-primary">Submit</button>
     </div> -->
     <div class="d-flex justify-content-end  mb-5">
   <button type="button" id="addMoreBtn" class="btn btn-success mr-2">+ Add More</button>
   <button type="submit" class="btn btn-primary">Submit</button>
 </div>
-
-    
   </form>
 </div>
 
