@@ -14,6 +14,12 @@
       background: #EF6603;
       font-family: Arial, sans-serif;
     }
+    .btn-color{
+      background-color: #EF6603;
+      color: #fff;
+padding: 10px 20px;
+border-radius: 5px;
+    }
     .section {
       background: #fff;
       padding: 20px;
@@ -109,23 +115,23 @@
                 </select>
             </div>
 
-            <div class="form-group col-md-6">
-              <label class="form-label">Part</label>
-              <select class="form-control" name="part_name[]">
-                <option>Part 1</option>
-                <option>Part 2</option>
-              </select>
-            </div>
-            <div class="form-group col-md-6">
-              <label class="form-label">Aadhar (Front)</label>
-              <input type="file" class="form-control-file" name="aadhar_front[]" />
-            </div>
-            <div class="form-group col-md-6">
-              <label class="form-label">Aadhar (Back)</label>
-              <input type="file" class="form-control-file" name="aadhar_back[]" />
-            </div>
+          <div class="form-group col-md-6">
+            <label class="form-label">Part</label>
+            <select class="form-control" name="part_name[]">
+              <option>Part 1</option>
+              <option>Part 2</option>
+            </select>
           </div>
-          <div class="text-center mb-4">
+          <div class="form-group col-md-6">
+            <label class="form-label">Aadhar (Front)</label>
+            <input type="file" class="form-control-file" name="aadhar_front[]" />
+          </div>
+          <div class="form-group col-md-6">
+            <label class="form-label">Aadhar (Back)</label>
+            <input type="file" class="form-control-file" name="aadhar_back[]" />
+          </div>
+        </div>
+         <div class="text-center mb-4">
             <button class="btn btn-info" >Submit</button>
           </div>
         </form>
