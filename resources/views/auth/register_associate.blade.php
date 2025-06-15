@@ -14,6 +14,12 @@
       background: #EF6603;
       font-family: Arial, sans-serif;
     }
+    .btn-color{
+      background-color: #EF6603;
+      color: #fff;
+padding: 10px 20px;
+border-radius: 5px;
+    }
     .section {
       background: #fff;
       padding: 20px;
@@ -112,8 +118,8 @@
             <input type="file" class="form-control-file" name="aadhar_back[]" />
           </div>
         </div>
-         <div class="text-center mb-4">
-            <button class="btn btn-info" >Submit</button>
+         <div class="text-center mb-1 mt-3">
+            <button class="btn-color" >Submit</button>
           </div>
         </form>
 
