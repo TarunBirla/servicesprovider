@@ -31,7 +31,6 @@ class ServiceController extends Controller
         return view('associate.services.create', compact('states', 'categories'));
     }
 
-
     public function store(Request $request)
     {
         try {
@@ -79,7 +78,8 @@ class ServiceController extends Controller
             ]);
         }
 
-        session()->forget('associate_id'); // Clear the session after storing
+        session()->forget('associate_id');
+        session()->forget('user_id'); // Clear the session after storing
 
         return redirect()->route('login')->with('success', 'Services submitted successfully!');
         } catch (\Throwable $th) {
@@ -88,5 +88,4 @@ class ServiceController extends Controller
         
     }
 
-   
 }

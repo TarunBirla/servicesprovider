@@ -44,27 +44,23 @@
       {{ session('error') }}
     </div>
   @endif
+  @php
+    use Illuminate\Support\Facades\DB;
+    $states = DB::table('states')->get();
+  @endphp
         <h3 class="text-center mt-4">Professional Details</h3>
   <form id="professionalForm" action="{{ route('services.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="section" id="formContainer">
-
-      <!-- Initial Form Group Will Be Added by JS -->
+      
     </div>
-
-    <!-- <div class="text-center mt-4">
-      <button type="button" id="addMoreBtn" class="btn btn-success">+ Add More</button>
-    </div>
-
-    <div class="text-center mt-4">
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </div> -->
     <div class="d-flex justify-content-end  mb-5">
   <button type="button" id="addMoreBtn" class="btn btn-success mr-2">+ Add More</button>
   <button type="submit" class="btn btn-primary">Submit</button>
 </div>
   </form>
 </div>
+
 
 <script>
   let formCount = 0;
@@ -131,21 +127,24 @@
       </div>
 
       <div class="form-group col-lg-4">
-        <label class="form-label">Coverage Area (State/UT)</label>
-        <select class="form-control" name="associate_trade_st_ut_name[]">
-          <option>UP</option><option>MP</option>
-        </select>
-      </div>
+      <label class="form-label">Coverage Area (State/UT)</label>
+      <select class="form-control state-select" name="associate_trade_st_ut_name[]">
+        <option value="">Select State</option>
+        @foreach(DB::table('states')->get() as $state)
+          <option value="{{ $state->id }}">{{ $state->name }}</option>
+        @endforeach
+      </select>
+    </div>
       <div class="form-group col-lg-4">
         <label class="form-label">District</label>
-        <select class="form-control" name="associate_trade_district_name[]">
-          <option>District 1</option><option>District 2</option>
+        <select class="form-control district-select" name="associate_trade_district_name[]">
+          <option value="">Select District</option>
         </select>
       </div>
       <div class="form-group col-lg-4">
         <label class="form-label">Assembly</label>
-        <select class="form-control" name="associate_trade_assembly_name[]">
-          <option>Assembly 1</option><option>Assembly 2</option>
+        <select class="form-control assembly-select" name="associate_trade_assembly_name[]">
+          <option value="">Select Assembly</option>
         </select>
       </div>
       <div class="form-group col-lg-4">
@@ -177,6 +176,59 @@
       selectedRevenueType = e.target.value;
     }
   });
+
+
+  
 </script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    // When any `.state-select` changes
+    $(document).on('change', '.state-select', function () {
+      var $row = $(this).closest('.form-row');
+      var stateID = $(this).val();
+      var $districtSelect = $row.find('.district-select');
+      var $assemblySelect = $row.find('.assembly-select');
+
+      $districtSelect.html('<option value="">Loading...</option>');
+      $assemblySelect.html('<option value="">Select Assembly</option>');
+
+      if (stateID) {
+        $.ajax({
+          url: '/get-districts/' + stateID,
+          type: 'GET',
+          success: function (data) {
+            $districtSelect.html('<option value="">Select District</option>');
+            $.each(data, function (key, value) {
+              $districtSelect.append('<option value="' + value.id + '">' + value.name + '</option>');
+            });
+          }
+        });
+      }
+    });
+
+    // When any `.district-select` changes
+    $(document).on('change', '.district-select', function () {
+      var $row = $(this).closest('.form-row');
+      var districtID = $(this).val();
+      var $assemblySelect = $row.find('.assembly-select');
+
+      $assemblySelect.html('<option value="">Loading...</option>');
+
+      if (districtID) {
+        $.ajax({
+          url: '/get-assemblies/' + districtID,
+          type: 'GET',
+          success: function (data) {
+            $assemblySelect.html('<option value="">Select Assembly</option>');
+            $.each(data, function (key, value) {
+              $assemblySelect.append('<option value="' + value.id + '">' + value.name + '</option>');
+            });
+          }
+        });
+      }
+    });
+  </script>
+
 </body>
 </html>

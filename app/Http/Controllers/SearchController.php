@@ -59,12 +59,11 @@ Class SearchController extends Controller
     public function service_details(Request $request)
     {
 
-        $query = $request->input('query');
-        $services = Service::where('name', 'LIKE', "%{$query}%")
-            ->orWhere('description', 'LIKE', "%{$query}%")
-            ->get();
+        $id = $request->input('id');
+        $service = Service::findOrFail($id);
+        $service->load('associate'); // Eager load the associate relationship
 
-        return view('user.searchtable', compact('services', 'query'));
+        return view('user.searchtableview', compact('service'));
     }
 
 

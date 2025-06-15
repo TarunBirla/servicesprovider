@@ -36,89 +36,100 @@
 <body>
   <div class="container mt-5">
     
+  @if(session('success'))
+    <div class="alert alert-success">
+      {{ session('success') }}
+    </div>
+  @endif
+  @if($errors->any())
+    <div class="alert alert-danger">
+      <ul>
+        @foreach ($errors->all() as $error)
+          <li>{{ $error }}</li>
+        @endforeach
+      </ul>
+    </div>
+  @endif
+
     <div id="formContainer">
-   
-      <!-- Initial Form Block -->
       <div class="section form-block">
-           <h3 class="text-center mb-4">PERSONAL DETAILS</h3>
+        <h3 class="text-center mb-4">PERSONAL DETAILS</h3>  
         <form method="POST" action="{{ route('register.associate.submit') }}" enctype="multipart/form-data">
-        @csrf
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label class="form-label">Name</label>
-            <input type="text" class="form-control" name="associate_name[]" />
-          </div>
-          <div class="form-group col-md-6">
-            <label class="form-label">Mobile</label>
-            <input type="text" class="form-control" name="associate_mobile[]" />
-          </div>
-           
-          <div class="form-group col-md-6">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-control" name="associate_email[]" />
-          </div>
-          <div class="form-group col-md-6">
-            <label class="form-label">Password</label>
-            <input type="password" class="form-control" name="associate_password[]" />
-          </div>
-          <div class="form-group col-md-6">
-            <label class="form-label">Address</label>
-            <input type="text" class="form-control" name="associate_address[]" />
-          </div>
-          <div class="form-group col-md-6">
-            <label class="form-label">Pincode</label>
-            <input type="text" class="form-control" name="associate_pincode[]" />
-          </div>
-          @php
-              use Illuminate\Support\Facades\DB;
-              $states = DB::table('states')->get();
-            @endphp
-          <div class="form-group col-md-6">
-            <label class="form-label">State</label>
-             <select class="form-control" id="state" name="state[]" style="height: 50px;">
-                <option value="">Select State</option>
-                @foreach($states as $state)
-                  <option value="{{ $state->id }}">{{ $state->name }}</option>
-                @endforeach
-              </select>
-          </div>
-          <div class="form-group col-md-6">
-              <label class="form-label">District</label>
-              <select class="form-control" id="district" name="district_name[]" style="height: 50px;">
-                <option value="">Select District</option>
-              </select>
-          </div>
+          @csrf
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label class="form-label">Name</label>
+              <input type="text" class="form-control" name="associate_name[]" />
+            </div>
+            <div class="form-group col-md-6">
+              <label class="form-label">Mobile</label>
+              <input type="text" class="form-control" name="associate_mobile[]" />
+            </div>
+            
+            <div class="form-group col-md-6">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" name="associate_email[]" />
+            </div>
+            <div class="form-group col-md-6">
+              <label class="form-label">Password</label>
+              <input type="password" class="form-control" name="associate_password[]" />
+            </div>
+            <div class="form-group col-md-6">
+              <label class="form-label">Address</label>
+              <input type="text" class="form-control" name="associate_address[]" />
+            </div>
+            <div class="form-group col-md-6">
+              <label class="form-label">Pincode</label>
+              <input type="text" class="form-control" name="associate_pincode[]" />
+            </div>
+            @php
+                use Illuminate\Support\Facades\DB;
+                $states = DB::table('states')->get();
+              @endphp
+            <div class="form-group col-md-6">
+              <label class="form-label">State</label>
+              <select class="form-control" id="state" name="state[]" style="height: 50px;">
+                  <option value="">Select State</option>
+                  @foreach($states as $state)
+                    <option value="{{ $state->id }}">{{ $state->name }}</option>
+                  @endforeach
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="form-label">District</label>
+                <select class="form-control" id="district" name="district_name[]" style="height: 50px;">
+                  <option value="">Select District</option>
+                </select>
+            </div>
 
-          <div class="form-group col-md-6">
-              <label class="form-label">Assembly</label>
-              <select class="form-control" id="assembly" name="assembly_name[]" style="height: 50px;">
-                <option value="">Select Assembly</option>
-              </select>
-          </div>
+            <div class="form-group col-md-6">
+                <label class="form-label">Assembly</label>
+                <select class="form-control" id="assembly" name="assembly_name[]" style="height: 50px;">
+                  <option value="">Select Assembly</option>
+                </select>
+            </div>
 
-          <div class="form-group col-md-6">
-            <label class="form-label">Part</label>
-            <select class="form-control" name="part_name[]">
-              <option>Part 1</option>
-              <option>Part 2</option>
-            </select>
+            <div class="form-group col-md-6">
+              <label class="form-label">Part</label>
+              <select class="form-control" name="part_name[]">
+                <option>Part 1</option>
+                <option>Part 2</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="form-label">Aadhar (Front)</label>
+              <input type="file" class="form-control-file" name="aadhar_front[]" />
+            </div>
+            <div class="form-group col-md-6">
+              <label class="form-label">Aadhar (Back)</label>
+              <input type="file" class="form-control-file" name="aadhar_back[]" />
+            </div>
           </div>
-          <div class="form-group col-md-6">
-            <label class="form-label">Aadhar (Front)</label>
-            <input type="file" class="form-control-file" name="aadhar_front[]" />
-          </div>
-          <div class="form-group col-md-6">
-            <label class="form-label">Aadhar (Back)</label>
-            <input type="file" class="form-control-file" name="aadhar_back[]" />
-          </div>
-        </div>
-         <div class="text-center mb-4">
+          <div class="text-center mb-4">
             <button class="btn btn-info" >Submit</button>
           </div>
         </form>
-
       </div>
-
     </div>
 
     <!-- Add/Remove Buttons -->
