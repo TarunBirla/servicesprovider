@@ -7,8 +7,18 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
     body { background: #EF6603; }
-    .section { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-top: 30px; }
+    .section {  padding: 20px; border-radius: 8px; }
     .form-label { font-weight: bold; }
+   .other-revenue-form {
+  margin: 30px 0;
+  padding: 20px;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+
+}
+
   </style>
 </head>
 <body>
@@ -34,7 +44,7 @@
       {{ session('error') }}
     </div>
   @endif
-        <h3 class="text-center mt-4">Professional Details</h3>
+        <h3 class="text-center text-white mt-4">Professional Details</h3>
   <form id="professionalForm" action="{{ route('services.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="section" id="formContainer">
@@ -42,13 +52,19 @@
       <!-- Initial Form Group Will Be Added by JS -->
     </div>
 
-    <div class="text-center mt-4">
+    <!-- <div class="text-center mt-4">
       <button type="button" id="addMoreBtn" class="btn btn-success">+ Add More</button>
     </div>
 
-    <div class="text-center mt-4">
+    <div class="text-center mt-4 mb-4">
       <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
+    </div> -->
+    <div class="d-flex justify-content-end  mb-5">
+  <button type="button" id="addMoreBtn" class="btn btn-success mr-2">+ Add More</button>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</div>
+
+    
   </form>
 </div>
 
@@ -59,7 +75,7 @@
 
   function createFormSection(index) {
     return `
-    <div class="form-row mt-4" id="formGroup-${index}">
+    <div class="form-row mt-4 other-revenue-form " id="formGroup-${index}">
       <div class="form-group col-lg-4">
         <label class="form-label">Trade Name</label>
         <input type="text" class="form-control" name="associate_trade_name[]">
