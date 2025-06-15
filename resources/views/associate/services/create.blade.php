@@ -10,8 +10,8 @@
     .section {  padding: 20px; border-radius: 8px;  margin-top: 30px; }
     .form-label { font-weight: bold; }
    .other-revenue-form {
-  /* margin: 30px 0; */
-  /* padding: 20px; */
+  margin: 30px 0;
+  padding: 20px;
   border: 1px solid #fff;
   border-radius: 10px;
   background-color: #fff;

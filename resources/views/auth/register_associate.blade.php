@@ -15,7 +15,7 @@
       font-family: Arial, sans-serif;
     }
     .section {
-      background: #fffbea;
+      background: #fff;
       padding: 20px;
       margin-bottom: 20px;
       border-radius: 8px;
