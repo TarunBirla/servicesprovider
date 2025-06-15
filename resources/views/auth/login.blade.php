@@ -4,12 +4,33 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Flexy Free Bootstrap Admin Template by WrapPixel</title>
+  <title>Login</title>
   <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/logos/favicon.png') }}" />
   <link rel="stylesheet" href="{{ asset('assets/associate/assets/css/styles.min.css') }}" />
+
+
 </head>
 
 <body>
+  @if ($errors->any())
+    <div class="alert alert-danger">
+      <ul>
+        @foreach ($errors->all() as $error)
+          <li>{{ $error }}</li>
+        @endforeach
+      </ul>
+    </div>
+  @endif
+  @if (session('success'))
+    <div class="alert alert-success">
+      {{ session('success') }}
+    </div>
+  @endif
+  @if (session('error'))
+    <div class="alert alert-danger">
+      {{ session('error') }}
+    </div>
+  @endif
   <!--  Body Wrapper -->
   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
     data-sidebar-position="fixed" data-header-position="fixed">

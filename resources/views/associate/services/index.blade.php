@@ -6,33 +6,6 @@
 
   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
     data-sidebar-position="fixed" data-header-position="fixed">
-
-    <!--  App Topstrip -->
-    <div class="app-topstrip bg-dark py-6 px-3 w-100 d-lg-flex align-items-center justify-content-between">
-      <div class="d-flex align-items-center justify-content-center gap-5 mb-2 mb-lg-0">
-        <a class="d-flex justify-content-center" href="#">
-          <img src="assets/associate/assets/images/logos/logo-wrappixel.svg" alt="" width="150">
-        </a>
-
-        
-      </div>
-
-      <div class="d-lg-flex align-items-center gap-2">
-        <h3 class="text-white mb-2 mb-lg-0 fs-5 text-center">Check Flexy Premium Version</h3>
-        <div class="d-flex align-items-center justify-content-center gap-2">
-          
-          <div class="dropdown d-flex">
-            <a class="btn btn-primary d-flex align-items-center gap-1 " href="javascript:void(0)" id="drop4"
-              data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="ti ti-shopping-cart fs-5"></i>
-              Buy Now
-              <i class="ti ti-chevron-down fs-5"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-
-    </div>
     <!-- Sidebar Start -->
     
     <!--  Sidebar End -->
@@ -55,19 +28,27 @@
                             @if(session('error'))
                                 <div class="alert alert-danger">{{ session('error') }}</div>
                             @endif
-                            <div class="d-flex justify-content-end mb-4">
-                                
-                                <a href="{{ route('services.create') }}" class="btn btn-primary">Create New Service</a>
-                            </div>
-                            
-                                 <div class="table-responsive mt-4">
-                                    <table class="table mb-0 text-nowrap varient-table align-middle fs-3">
+                            @if(session('info'))
+                                <div class="alert alert-info">{{ session('info') }}</div>
+                            @endif
+                            <div class="table-responsive mt-4">
+                                <table class="table  text-nowrap varient-table align-middle fs-3">
                                     <thead>
                                         <tr>
                                         <th scope="col" class="px-0 text-muted"> id</th>
                                         <th scope="col" class="px-0 text-muted">Title</th>
-                                        <th scope="col" class="px-0 text-muted">Category</th>
-                                        <th scope="col" class="px-0 text-muted"> Description</th>
+                                        <th scope="col" class="px-0 text-muted">Type</th>
+                                        <th scope="col" class="px-0 text-muted"> Revenue Type</th>
+                                        <th scope="col" class="px-0 text-muted">Sector</th>
+                                        <th scope="col" class="px-0 text-muted">Industry</th>
+                                        <th scope="col" class="px-0 text-muted">Sub Industry</th>
+                                        <th scope="col" class="px-0 text-muted">Experience Year</th>
+                                        <th scope="col" class="px-0 text-muted">Address</th>
+                                        <th scope="col" class="px-0 text-muted">Pincode</th>
+                                        <th scope="col" class="px-0 text-muted">State</th>
+                                        <th scope="col" class="px-0 text-muted">District</th>
+                                        <th scope="col" class="px-0 text-muted">Assembly</th>
+                                        <th scope="col" class="px-0 text-muted">Part</th>
                                         <th scope="col" class="px-0 text-muted text-end">status</th>
                                         </tr>
                                     </thead>
@@ -76,26 +57,35 @@
                                         <tr>
                                             <td class="px-0">{{ $service->id }}</td>
                                             <td class="px-0">{{ $service->title }}</td>
-                                            <td class="px-0">{{ $service->category->name }}</td>
-                                            <td class="px-0">{{ $service->description }}</td>
-                                            <td class="px-0 text-end">
-                                                @if($service->status)
-                                                <span class="badge bg-success">Active</span>
+                                            <td class="px-0">{{ $service->type }}</td>
+                                            <td class="px-0">{{ $service->revenue_type }}</td>
+                                            <td class="px-0">{{ $service->sector_name }}</td>
+                                            <td class="px-0">{{ $service->industry_name }}</td>
+                                            <td class="px-0">{{ $service->sub_industry_name }}</td>
+                                            <td class="px-0">{{ $service->experience_year }}</td>
+                                            <td class="px-0">{{ $service->address }}</td>
+                                            <td class="px-0">{{ $service->pincode }}</td>
+                                            <td class="px-0">{{ $service->state }}</td>
+                                            <td class="px-0">{{ $service->district_name }}</td>
+                                            <td class="px-0">{{ $service->assembly_name }}</td>
+                                            <td class="px-0">{{ $service->part_name }}</td>
+                                            <td class="text-end">
+                                                @if($service->status == 'active')
+                                                    <span class="badge bg-success">Active</span>
                                                 @else
-                                                <span class="badge bg-danger">Inactive</span>
+                                                    <span class="badge bg-danger">Inactive</span>
                                                 @endif
                                             </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
-                                    </table>
+                                </table>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <div>
+                                    <span class="text-muted">Showing {{ $services->firstItem() }} to {{ $services->lastItem() }} of {{ $services->total() }} entries</span>
                                 </div>
-                                <div class="d-flex justify-content-between align-items-center mt-4">
-                                    <div>
-                                        <span class="text-muted">Showing {{ $services->firstItem() }} to {{ $services->lastItem() }} of {{ $services->total() }} entries</span>
-                                    </div>
-                                    
-                                </div>
+
                             </div>
                         </div>
                     </div>

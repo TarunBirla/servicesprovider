@@ -8,98 +8,98 @@
 </head>
 <body>
     <style>
-    body {
-        background-color: #fafafa;
-    }
-
-    .main-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        position: relative;
-    }
-
-    .top-link a{
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        z-index: 1000;
-    }
-
-    .img1 {
-        width: 100%;
-        border-radius: 15px;
-    }
-
-    .login-box {
-        width: 100%;
-        max-width: 350px;
-        padding: 40px;
-        border-radius: 10px;
-    }
-
-    .login-box .form-control {
-        margin-bottom: 10px;
-    }
-
-    .login-box .btn {
-        width: 100%;
-    }
-
-    .or-divider {
-        text-align: center;
-        margin: 15px 0;
-        position: relative;
-    }
-
-    .or-divider::before,
-    .or-divider::after {
-        content: "";
-        height: 1px;
-        background: #ccc;
-        width: 40%;
-        position: absolute;
-        top: 50%;
-    }
-
-    .or-divider::before {
-        left: 0;
-    }
-
-    .or-divider::after {
-        right: 0;
-    }
-
-    .or-divider span {
-        background: #fff;
-        padding: 0 10px;
-        color: #999;
-    }
-
-    .signup-link {
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    @media (max-width: 768px) {
-        .main-container {
-            flex-direction: column;
-            padding: 20px;
+        body {
+            background-color: #fafafa;
         }
 
-        .top-link {
-            position: static;
-            text-align: right;
-            width: 100%;
-            margin-bottom: 10px;
+        .main-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        .top-link a{
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
         }
 
         .img1 {
-            margin-bottom: 20px;
+            width: 100%;
+            border-radius: 15px;
         }
-    }
-</style>
+
+        .login-box {
+            width: 100%;
+            max-width: 350px;
+            padding: 40px;
+            border-radius: 10px;
+        }
+
+        .login-box .form-control {
+            margin-bottom: 10px;
+        }
+
+        .login-box .btn {
+            width: 100%;
+        }
+
+        .or-divider {
+            text-align: center;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .or-divider::before,
+        .or-divider::after {
+            content: "";
+            height: 1px;
+            background: #ccc;
+            width: 40%;
+            position: absolute;
+            top: 50%;
+        }
+
+        .or-divider::before {
+            left: 0;
+        }
+
+        .or-divider::after {
+            right: 0;
+        }
+
+        .or-divider span {
+            background: #fff;
+            padding: 0 10px;
+            color: #999;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .top-link {
+                position: static;
+                text-align: right;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .img1 {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
 
 <main class="main">
     <div class="container main-container">
@@ -116,21 +116,17 @@
 
             <div class="col-lg-6 d-flex justify-content-center align-items-center">
                 <div class="login-box">
-                    <h3 class="text-center mb-4 font-weight-bold" style="font-family: 'Billabong', cursive;">Instagram</h3>
-                    <input type="text" class="form-control" placeholder="Phone number, username, or email">
-                    <input type="password" class="form-control" placeholder="Password">
-                    <button class="btn btn-primary">Log In</button>
-
-                    <div class="or-divider"><span>OR</span></div>
-
-                    <button class="btn btn-outline-primary btn-block mb-2">
-                        <i class="fab fa-facebook-square"></i> Log in with Facebook
-                    </button>
-                    <p class="text-center"><a href="#">Forgot password?</a></p>
-
-                    <div class="signup-link">
-                        <p>Don't have an account? <a href="#">Sign up</a></p>
-                    </div>
+                    <form action="{{ route('login') }}" method="POST">
+                        @csrf
+                        <h3 class="text-center mb-4 font-weight-bold" style="font-family: 'Billabong', cursive;">Service Provider</h3>
+                        <input type="text" class="form-control" name="email" placeholder="email">
+                        <input type="password" class="form-control" name="password" placeholder="Password">
+                        <button class="btn btn-primary">Log In</button>
+                        <p class="text-center"><a href="#">Forgot password?</a></p>
+                        <div class="signup-link">
+                            <p>Don't have an account? <a href="#">Sign up</a></p>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

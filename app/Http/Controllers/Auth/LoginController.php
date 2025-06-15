@@ -19,6 +19,16 @@ class LoginController extends Controller
     protected $redirectTo = '/home';
 
 
+    public function user_login(){
+        if(!empty(Auth::user())){
+            return redirect()->route('home');
+        }else{
+            return view('user.login');
+        }
+    }
+    public function home(){
+        return view('user.index');
+    }
     public function showLoginForm()
     {
         return view('auth.login');
@@ -28,20 +38,21 @@ class LoginController extends Controller
     {
         $this->validate($request, [
             'email' => 'required|email',
-            'password' => 'required|string|min:8',
+            'password' => 'required',
         ]); 
 
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
             if( Auth::user()->role == 'associate') {
-                // Redirect to associate dashboard
                 return redirect()->route('associate.dashboard')->with('success', 'Login successful!');
             } elseif (Auth::user()->role == 'admin') {
-                // Redirect to admin dashboard
+                
                 return redirect()->route('admin.dashboard')->with('success', 'Login successful!');
-            } 
-        }  
+            }else{
+                return redirect()->route('home')->with('success', 'Login successful!');
+            }
+        }
 
         return redirect()->back()
             ->withInput($request->only('email'))
@@ -65,10 +76,6 @@ class LoginController extends Controller
         $this->validate($request, [
             'email' => 'required|email',
         ]);
-
-        // Logic to send reset link email
-        // This is typically handled by Laravel's built-in password reset functionality
-
         return back()->with('status', 'We have emailed your password reset link!');
     }
 

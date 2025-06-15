@@ -18,12 +18,14 @@ class LocationController extends Controller
 
     public function getDistricts($state_id)
     {
-        return response()->json(District::where('state_id', $state_id)->get());
+        $districts = District::where('state_id', $state_id)->get();
+        return response()->json($districts);
     }
 
     public function getAssemblies($district_id)
     {
-        return response()->json(Assembly::where('district_id', $district_id)->get());
+        $assemblies = Assembly::where('district_id', $district_id)->get();
+        return response()->json($assemblies);
     }
 
     public function getCities($assembly_id)
