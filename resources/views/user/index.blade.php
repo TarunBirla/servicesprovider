@@ -4,21 +4,20 @@
       <section id="features" class="features section">
         <div class="container ">
           <div class="row">
-            <div class="col-lg-3" >
-          <img src="https://sewamitra.up.gov.in/images/SewaMitra.png" class="img-fluid" alt="">
-          </div>
+            <div class="col-lg-3 mt-5" >
+   <img src="{{ asset('assets/lg.jpg') }}" class="img-fluid" alt="">          </div>
           <div class="col-lg-6 mt-5 text-center" >
           <h1>Services Provider</h1>
           </div>
-          <div class="col-lg-3" >
-          <img src="https://sewamitra.up.gov.in/images/SewaMitra.png" class="img-fluid" alt="">
+          <div class="col-lg-3 mt-5" >
+             <img src="{{ asset('assets/lg.jpg') }}" class="img-fluid" alt="">
           
           </div>
           </div>
         </div>
       </section>
      
-        <div class=" mt-5">
+        <div class="">
           <section id="hero" class="hero section dark-background">
               <div class="tab-content" data-aos="fade-up" data-aos-delay="200">
                 <div class="tab-pane fade active show" id="features-tab-1">

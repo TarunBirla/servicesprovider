@@ -4,7 +4,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   
   <!-- FullCalendar CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet" />
+   <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui-pro@5.14.0/dist/css/coreui.min.css" rel="stylesheet">
+
+
   <style>
      .calendar-container {
       background: #fff;
@@ -27,11 +29,14 @@
       <section id="features" class="features section">
         <div class="container ">
           <div class="row">
-            <div class="col-lg-3" >
+            <div class="col-lg-3 mt-3" >
           <img src="{{ asset('assets/lg.jpg') }}" class="img-fluid" alt="">
           </div>
           <div class="col-lg-6 mt-5 text-center" >
             <h1>Provider Details</h1>
+          </div>
+          <div class="col-lg-3 mt-3" >
+          <img src="{{ asset('assets/lg.jpg') }}" class="img-fluid" alt="">
           </div>
           </div>
         </div>
@@ -92,21 +97,26 @@
 
           <div class="row ">
             <div class="col-lg-6">
-              <div class="calendar-container">
-                <div id="calendar"></div>
-              </div>
-            </div>
-     
+               <div class="d-flex justify-content-center mt-4">
+                  <div id="coreui-calendar"
+                      class="border rounded p-3"
+                      data-coreui-locale="en-US"
+                      data-coreui-toggle="calendar">
+                  </div>
+                </div>
+
+                </div>
+
               <div class="col-lg-6">
-                <h4>SERVICE CONFIRMATION</h4>
-                <span class="mt-4 mb-4">YOUR SERVICE HAS BEEN SCHEDULED FOR (DATE) AND (TIME SLOT)
-                      THE TENTATIVE AMOUNT WILL BE AS PER BELOW PLACED TABLE</span>
+               <h4>SERVICE CONFIRMATION</h4>
+                          <span class="mt-4 mb-4">YOUR SERVICE HAS BEEN SCHEDULED FOR (DATE) AND (TIME SLOT)
+                                THE TENTATIVE AMOUNT WILL BE AS PER BELOW PLACED TABLE</span>
 
                 <div class="header">
                   <div class="row search-bar">
                     <div class="col-lg-12">
                       <label for="sector" class="font-weight-bold text-white">Amount:- </label>
-                      <label for="sector" class="font-weight-bold text-white">RS. 0.00</label></br>
+                      <label for="sector" class="font-weight-bold text-white">RS. {{ $service->amount ?? 'N/A' }}</label></br>
 
                       <label for="sector" class="font-weight-bold text-white">Service Charges:- </label>  
                       <label for="sector" class="font-weight-bold text-white">RS. 0.00</label></br>
@@ -128,9 +138,29 @@
 
                     </div>
                   </div>
-                  <button  class="btn btn-primary mt-4">Confirm Order</button>
                 </div>
-              </div>
+
+                                  <form method="POST" action="{{ route('order.submit') }}">
+                                @csrf
+
+                                <!-- These will be sent -->
+                                <input type="hidden" name="service_id" value="{{ $service->id }}">
+                                <input type="hidden" name="associate_id" id="associate_id" value="{{ $service->associate->id }}">
+                                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                                <input type="hidden" name="amount" id="amount" value="{{ $service->amount }}">
+                                <input type="hidden" id="selectedDate" name="date" required>
+
+                                <div class="form-group">
+                                  <label for="note">Note (optional)</label>
+                                  <textarea name="note" class="form-control" rows="3"></textarea>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary mt-3 mb-4">Confirm Order</button>
+                              </form>
+                                        </div>
+                                      </div>
+
+             
             </div>
           </div>
       </div>
@@ -138,32 +168,42 @@
   </div>
 
 
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@coreui/coreui-pro@5.14.0/dist/js/coreui.bundle.min.js"></script>
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
-      height: 500,
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
-      },
-      events: [
-        {
-          title: 'Meeting with Client',
-          start: '2025-06-14',
-        },
-        {
-          title: 'Service Deadline',
-          start: '2025-06-18'
-        }
-      ]
+    const calendarElement = document.getElementById('coreui-calendar');
+
+    const calendar = new coreui.Calendar(calendarElement, {
+      locale: 'en-US'
     });
-    calendar.render();
+
+    // ✅ Use correct CoreUI event
+    calendarElement.addEventListener('calendarDateChange.coreui.calendar', (event) => {
+      const selectedDate = event.detail?.date;
+      if (selectedDate instanceof Date && !isNaN(selectedDate)) {
+        const formattedDate = selectedDate.toISOString().split('T')[0];
+        document.getElementById('selectedDate').value = formattedDate;
+        console.log('✅ Date selected:', formattedDate);
+      } else {
+        console.warn('⚠️ Invalid or missing selectedDate:', event.detail);
+      }
+    });
+
+    // ✅ Log values when form is submitted
+    document.querySelector('form').addEventListener('submit', function (e) {
+      console.log('📤 Submitting with:');
+      console.log('service_id:', '{{ $service->id }}');
+      console.log('associate_id:', document.getElementById('associate_id').value);
+      console.log('user_id:', '{{ auth()->user()->id }}');
+      console.log('amount:', document.getElementById('amount').value);
+      console.log('date:', document.getElementById('selectedDate').value);
+    });
   });
 </script>
+
+
+
 
 @endsection
 

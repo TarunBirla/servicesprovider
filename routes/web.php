@@ -6,6 +6,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AssociateController;
+use App\Http\Controllers\ServiceOrderController;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsAssociate;
 use App\Http\Controllers\Auth\RegisterController;
@@ -66,7 +67,11 @@ Route::get('/', [LoginController::class, 'user_login'])->name('user_login');
 Route::get('/home', [LoginController::class, 'home'])->name('home');
 Route::post('/search', [SearchController::class, 'index'])->name('search');
 Route::get('/servicelist', [SearchController::class, 'service_details'])->name('searchtable');
-
+Route::get('/order/service/{id}', [ServiceOrderController::class, 'create'])->name('order.service');
+    Route::post('/order/submit', [ServiceOrderController::class, 'store'])->name('order.submit');
+Route::get('/order/thankyou', function () {
+    return view('user.thankyou');
+})->name('user.thankyou');
 
 
 Route::get('/userlogin', function () { 
