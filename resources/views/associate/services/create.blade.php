@@ -117,6 +117,10 @@
         <label class="form-label">Experience Year</label>
         <input type="text" class="form-control" name="experience_year[]">
       </div>
+       <div class="form-group col-lg-4">
+        <label class="form-label">Amount</label>
+        <input type="number" class="form-control" name="amount[]">
+      </div>
       <div class="form-group col-lg-4">
         <label class="form-label">Address</label>
         <input type="text" class="form-control" name="associate_trade_address[]">

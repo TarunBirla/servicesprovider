@@ -14,6 +14,8 @@
     <h1 class="text-success">Thank You!</h1>
     <p class="lead">Your service order has been placed successfully.</p>
     <a href="{{ route('home') }}" class="btn btn-primary mt-3">Back to Home</a>
+    <a href="{{ route('ordertable') }}" class="btn btn-warning mt-3">Order History</a>
+
 </div>
 </body>
 </html>

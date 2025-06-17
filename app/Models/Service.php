@@ -20,6 +20,7 @@ class Service extends Model
         'address',
         'pincode',
         'state',
+        'amount',
         'district_name',
         'assembly_name',
         'part_name',

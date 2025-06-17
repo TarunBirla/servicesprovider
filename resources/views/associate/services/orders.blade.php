@@ -61,7 +61,18 @@
                                             <td class="px-0">{{ $order->service_id }}</td>
                                             <td class="px-0">{{ $order->note }}</td>
                                             <td class="px-0">
-                                                <button class="btn btn-primary">{{ $order->status }}</button>
+               <form action="{{ route('orders.updateStatus', $order->id) }}" method="POST">
+    @csrf
+    @method('PUT')
+    <select name="status" onchange="this.form.submit()" class="form-select form-select-sm">
+        <option value="Pending" {{ $order->status == 'Pending' ? 'selected' : '' }}>Pending</option>
+        <option value="Confirmed" {{ $order->status == 'Confirmed' ? 'selected' : '' }}>Confirmed</option>
+        <option value="Cancelled" {{ $order->status == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
+        <option value="Completed" {{ $order->status == 'Completed' ? 'selected' : '' }}>Completed</option>
+    </select>
+</form>
+
+
                                             </td>
 
                                             

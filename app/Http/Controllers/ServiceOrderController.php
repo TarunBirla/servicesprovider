@@ -37,7 +37,28 @@ class ServiceOrderController extends Controller
         return redirect()->route('user.thankyou');
     }
 
-    
+    public function ordertable()
+{
+    $user = Auth::user();
+    $orders = \App\Models\ServiceOrder::where('user_id', $user->id)->get();
+
+    return view('user.orderuser', compact('orders'));
+}
+public function updateStatus(Request $request, $id)
+{
+    $request->validate([
+        'status' => 'required|string|in:Pending,Confirmed,Cancelled,Completed',
+    ]);
+
+    $order = ServiceOrder::findOrFail($id);
+    $order->status = $request->input('status'); // ✅ correctly treated as string
+    $order->save();
+
+    return redirect()->route('services.orders')->with('success', 'Order status updated successfully!');
+}
+
+
+
     public function index()
     {
         $orders = ServiceOrder::with(['user', 'service'])->latest()->get();

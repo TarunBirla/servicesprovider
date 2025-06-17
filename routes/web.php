@@ -48,7 +48,9 @@ use Illuminate\Support\Facades\Hash;
     });
 
     Route::get('/associate/Orders', [ServiceOrderController::class, 'index'])->name('services.orders');
-    
+    Route::put('/associate/Orders/{id}', [ServiceOrderController::class, 'updateStatus'])->name('orders.updateStatus');
+Route::get('/ordertable', [ServiceOrderController::class, 'ordertable'])->middleware('auth')->name('ordertable');
+
 
     Route::get('/associate/services/create', [ServiceController::class, 'create'])->name('services.create');
     Route::post('/associate/services', [ServiceController::class, 'store'])->name('services.store');
