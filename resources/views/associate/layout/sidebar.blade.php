@@ -29,6 +29,12 @@
                 <span class="hide-menu">Services</span>
               </a>
             </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{route('services.orders')}}" aria-expanded="false">
+                <i class="ti ti-atom"></i>
+                <span class="hide-menu">Orders</span>
+              </a>
+            </li>
           </ul>
         </nav>
         <!-- End Sidebar navigation -->

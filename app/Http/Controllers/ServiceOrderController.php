@@ -19,22 +19,28 @@ class ServiceOrderController extends Controller
     {
         $request->validate([
             'service_id' => 'required|exists:services,id',
+            
             'note' => 'nullable|string|max:1000',
         ]);
 
         ServiceOrder::create([
             'user_id' => Auth::id(),
             'service_id' => $request->service_id,
+            'associate_id' =>$request->associate_id,
+            'amount'=>$request->amount,
+            'date'=>$request->date,
             'note' => $request->note,
+              'status' => 'Pending',
         ]);
 
         // return redirect()->back()->with('success', 'Order placed successfully!');
         return redirect()->route('user.thankyou');
     }
 
+    
     public function index()
     {
         $orders = ServiceOrder::with(['user', 'service'])->latest()->get();
-        return view('orders.index', compact('orders'));
+        return view('associate.services.orders', compact('orders'));
     }
 }

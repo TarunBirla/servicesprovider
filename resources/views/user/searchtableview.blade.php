@@ -4,7 +4,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   
   <!-- FullCalendar CSS -->
-   <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui-pro@5.14.0/dist/css/coreui.min.css" rel="stylesheet">
+<!-- Flatpickr CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 
   <style>
@@ -24,6 +25,7 @@
       margin-bottom: 20px;
       border-radius: 8px;
     }
+   
     
   </style>
       <section id="features" class="features section">
@@ -96,16 +98,11 @@
         </div>
 
           <div class="row ">
-            <div class="col-lg-6">
-               <div class="d-flex justify-content-center mt-4">
-                  <div id="coreui-calendar"
-                      class="border rounded p-3"
-                      data-coreui-locale="en-US"
-                      data-coreui-toggle="calendar">
-                  </div>
-                </div>
-
-                </div>
+           <div class="col-lg-6">
+  <div class="d-flex justify-content-center mt-4">
+    <div id="inline-calendar" class="border rounded"></div>
+  </div>
+</div>
 
               <div class="col-lg-6">
                <h4>SERVICE CONFIRMATION</h4>
@@ -140,23 +137,22 @@
                   </div>
                 </div>
 
-                                  <form method="POST" action="{{ route('order.submit') }}">
-                                @csrf
+                                   <form method="POST" action="{{ route('order.submit') }}">
+                                            @csrf
+                                            <input type="hidden" name="service_id" value="{{ $service->id }}">
+                                            <input type="hidden" name="associate_id" value="{{ $service->associate->id }}">
+                                            <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                                            <input type="hidden" name="amount" value="{{ $service->amount }}">
+                                            <input type="hidden" id="selectedDate" name="date" required>
 
-                                <!-- These will be sent -->
-                                <input type="hidden" name="service_id" value="{{ $service->id }}">
-                                <input type="hidden" name="associate_id" id="associate_id" value="{{ $service->associate->id }}">
-                                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-                                <input type="hidden" name="amount" id="amount" value="{{ $service->amount }}">
-                                <input type="hidden" id="selectedDate" name="date" required>
 
-                                <div class="form-group">
-                                  <label for="note">Note (optional)</label>
-                                  <textarea name="note" class="form-control" rows="3"></textarea>
-                                </div>
+                                            <div class="form-group mt-3">
+                                              <label for="note">Note (optional)</label>
+                                              <textarea name="note" class="form-control" rows="3"></textarea>
+                                            </div>
 
-                                <button type="submit" class="btn btn-primary mt-3 mb-4">Confirm Order</button>
-                              </form>
+                                            <button type="submit" class="btn btn-primary mt-3 mb-4">Confirm Order</button>
+                                          </form>
                                         </div>
                                       </div>
 
@@ -167,40 +163,38 @@
 
   </div>
 
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-<script defer src="https://cdn.jsdelivr.net/npm/@coreui/coreui-pro@5.14.0/dist/js/coreui.bundle.min.js"></script>
+
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const calendarElement = document.getElementById('coreui-calendar');
+    const hiddenDateInput = document.getElementById('selectedDate');
 
-    const calendar = new coreui.Calendar(calendarElement, {
-      locale: 'en-US'
-    });
-
-    // ✅ Use correct CoreUI event
-    calendarElement.addEventListener('calendarDateChange.coreui.calendar', (event) => {
-      const selectedDate = event.detail?.date;
-      if (selectedDate instanceof Date && !isNaN(selectedDate)) {
-        const formattedDate = selectedDate.toISOString().split('T')[0];
-        document.getElementById('selectedDate').value = formattedDate;
-        console.log('✅ Date selected:', formattedDate);
-      } else {
-        console.warn('⚠️ Invalid or missing selectedDate:', event.detail);
+    flatpickr("#inline-calendar", {
+      inline: true, // ✅ Always visible calendar
+      minDate: "today", // Optional: disable past dates
+      dateFormat: "Y-m-d",
+      onChange: function(selectedDates, dateStr) {
+        hiddenDateInput.value = dateStr;
+        console.log("📅 Selected date:", dateStr);
       }
     });
 
-    // ✅ Log values when form is submitted
+    // Prevent form submission without date
     document.querySelector('form').addEventListener('submit', function (e) {
-      console.log('📤 Submitting with:');
-      console.log('service_id:', '{{ $service->id }}');
-      console.log('associate_id:', document.getElementById('associate_id').value);
-      console.log('user_id:', '{{ auth()->user()->id }}');
-      console.log('amount:', document.getElementById('amount').value);
-      console.log('date:', document.getElementById('selectedDate').value);
+      if (!hiddenDateInput.value) {
+        e.preventDefault();
+        alert('Please select a date before submitting.');
+      }
     });
   });
 </script>
+
+
+
+
 
 
 
