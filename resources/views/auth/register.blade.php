@@ -50,12 +50,6 @@
             <a href="{{ route('login') }}" class="btn btn-secondary">Already have an account? Login</a>
         </div>
     </form>
-    <div class="mt-4">
-        <p class="text-center text-gray-600">
-            {{ __('By registering, you agree to our') }} 
-            <a href="{{ route('terms') }}" class="text-blue-500 hover:underline">{{ __('Terms of Service') }}</a> 
-            {{ __('and') }} 
-            <a href="{{ route('privacy') }}" class="text-blue-500 hover:underline">{{ __('Privacy Policy') }}</a>.
-        </p>
+   
 </body>
 </html>

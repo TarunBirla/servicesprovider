@@ -235,7 +235,7 @@
                 <div class="login-box">
                     <form action="{{ route('login') }}" method="POST">
                         @csrf
-                        <h3 class="text-center mb-4 font-weight-bold" style="font-family: 'Billabong', cursive;">Sun Shakti</h3>
+                        <h3 class="text-center mb-4 font-weight-bold" style="font-family: 'Billabong', cursive;">Sanshakti</h3>
                         <input type="email" class="form-control" id="exampleInputEmail1" name="email"   aria-describedby="emailHelp">
                         <input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
                         <button class="btn btn-primary">Log In</button>

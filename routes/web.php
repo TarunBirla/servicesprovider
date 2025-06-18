@@ -49,7 +49,7 @@ use Illuminate\Support\Facades\Hash;
 
     Route::get('/associate/Orders', [ServiceOrderController::class, 'index'])->name('services.orders');
     Route::put('/associate/Orders/{id}', [ServiceOrderController::class, 'updateStatus'])->name('orders.updateStatus');
-Route::get('/ordertable', [ServiceOrderController::class, 'ordertable'])->middleware('auth')->name('ordertable');
+    Route::get('/ordertable', [ServiceOrderController::class, 'ordertable'])->middleware('auth')->name('ordertable');
 
 
     Route::get('/associate/services/create', [ServiceController::class, 'create'])->name('services.create');
@@ -82,6 +82,9 @@ Route::get('/order/thankyou', function () {
 Route::get('/userlogin', function () { 
     return view('user.login');
 })->name('userlogin');
+Route::get('/register', function () { 
+    return view('auth.register');
+})->name('register');
 
 Route::get('/admin', function () {
     return view('admin.index');

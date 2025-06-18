@@ -118,13 +118,13 @@
                 <div class="login-box">
                     <form action="{{ route('login') }}" method="POST">
                         @csrf
-                        <h3 class="text-center mb-4 font-weight-bold" style="font-family: 'Billabong', cursive;">Service Provider</h3>
+                        <h3 class="text-center mb-4 font-weight-bold" style="font-family: 'Billabong', cursive;">Login</h3>
                         <input type="text" class="form-control" name="email" placeholder="email">
                         <input type="password" class="form-control" name="password" placeholder="Password">
                         <button class="btn btn-primary">Log In</button>
                         <p class="text-center"><a href="#">Forgot password?</a></p>
                         <div class="signup-link">
-                            <p>Don't have an account? <a href="#">Sign up</a></p>
+                            <p>Don't have an account? <a href="{{ url('register') }}">Sign up</a></p>
                         </div>
                     </form>
                 </div>

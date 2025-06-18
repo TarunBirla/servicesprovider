@@ -4,15 +4,9 @@
       <section id="features" class="features section">
         <div class="container ">
           <div class="row">
-            <div class="col-lg-3 mt-5" >
-   <img src="{{ asset('assets/lg.jpg') }}" class="img-fluid" alt="">          </div>
-          <div class="col-lg-6 mt-5 text-center" >
-          <h1>Services Provider</h1>
-          </div>
-          <div class="col-lg-3 mt-5" >
-             <img src="{{ asset('assets/lg.jpg') }}" class="img-fluid" alt="">
-          
-          </div>
+            <div class="col-12 col-md-12">
+              <!-- <img src="{{ asset('assets/d1.png') }}" class="img-fluid" alt=""> -->.
+               <h1>Welcome to Sanshakti</h1>
           </div>
         </div>
       </section>
@@ -136,7 +130,7 @@
                               {{ $associate->review ?? 'N/A' }}
                             </td>
                             <td class="text-danger">
-                              <a href="{{ url('/servicelist?id=' . $service->id) }}">View</a>
+                              <a href="{{ url('/servicelist?id=' . $service->id) }}">Select</a>
                             </td>
                           </tr>
                         @endforeach
