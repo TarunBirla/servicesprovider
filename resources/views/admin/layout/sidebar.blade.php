@@ -1,4 +1,16 @@
- <aside class="left-sidebar">
+ <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari&display=swap" rel="stylesheet">
+
+
+
+<div class="app-topstrip text-center py-6 px-3 w-100 d-lg-flex align-items-center justify-content-between">  
+ <h1 style="font-family: 'Noto Sans Devanagari', sans-serif; letter-spacing: 0.5px; align-items: center">
+                धर्म एव हतो हन्ति धर्मो रक्षति रक्षितः ⁠।
+               तस्माद् धर्मं न त्यजामि मा नो धर्मो हतोऽवधीत् ⁠॥ 
+              </h1>
+
+    </div>
+
+<aside class="left-sidebar">
       <!-- Sidebar scroll-->
       <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">

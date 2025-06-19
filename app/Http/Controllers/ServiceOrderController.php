@@ -29,6 +29,7 @@ class ServiceOrderController extends Controller
             'associate_id' =>$request->associate_id,
             'amount'=>$request->amount,
             'date'=>$request->date,
+            'time'=>$request->time,
             'note' => $request->note,
               'status' => 'Pending',
         ]);

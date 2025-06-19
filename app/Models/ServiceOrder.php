@@ -12,6 +12,7 @@ class ServiceOrder extends Model
     protected $fillable = [
         'user_id',
 'date',
+'time',
 'amount',
         'associate_id',
         'service_id',

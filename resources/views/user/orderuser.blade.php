@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Order History</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
+@extends('user.layout.main')
+  @section('content')
+  <main class="main">
+      <section id="features" class="features section">
   <div class="container mt-5">
     <h2 class="mb-4">Your Order History</h2>
 
@@ -36,10 +32,10 @@
               <td>{{ $order->service_id }}</td>
               <td>{{ $order->note }}</td>
               <td>
-                <span class="badge 
-                  {{ $order->status == 'Pending' ? 'badge-warning' : 
-                     ($order->status == 'Confirmed' ? 'badge-success' : 
-                     ($order->status == 'Cancelled' ? 'badge-danger' : 'badge-info')) }}">
+                <span class="btn 
+                  {{ $order->status == 'Pending' ? 'btn-warning' : 
+                     ($order->status == 'Confirmed' ? 'btn-success' : 
+                     ($order->status == 'Cancelled' ? 'btn-danger' : 'btn-info')) }}">
                   {{ $order->status }}
                 </span>
               </td>
@@ -55,5 +51,7 @@
 
     <a href="{{ route('home') }}" class="btn btn-primary mt-3">Back to Home</a>
   </div>
-</body>
-</html>
+</section>
+</main>
+ @endsection
+

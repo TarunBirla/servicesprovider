@@ -31,6 +31,12 @@
                             @if(session('info'))
                                 <div class="alert alert-info">{{ session('info') }}</div>
                             @endif
+
+                            <div class="d-flex justify-content-end mb-3">
+            <a href="{{ route('services.create') }}" class="btn btn-primary">
+                + Create Service
+            </a>
+        </div>
                             <div class="table-responsive mt-4">
                                 <table class="table  text-nowrap varient-table align-middle fs-3">
                                     <thead>

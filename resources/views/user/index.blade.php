@@ -1,12 +1,40 @@
 @extends('user.layout.main')
   @section('content')
+
+  <style>
+    .service-table th,
+.service-table td {
+  vertical-align: middle;
+}
+
+.service-title {
+  font-weight: 600;
+  color: #343a40;
+  font-size: 1rem;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #dee2e6 !important;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari&display=swap" rel="stylesheet">
+
     <main class="main">
       <section id="features" class="features section">
         <div class="container ">
           <div class="row">
-            <div class="col-12 col-md-12">
-              <!-- <img src="{{ asset('assets/d1.png') }}" class="img-fluid" alt=""> -->.
-               <h1>Welcome to Sanshakti</h1>
+            <div class="col-12 col-md-12 text-center mt-5 ">
+               <h1 style="font-family: 'Noto Sans Devanagari', sans-serif; letter-spacing: 0.5px;">
+                धर्म एव हतो हन्ति धर्मो रक्षति रक्षितः ⁠। <br/>
+               तस्माद् धर्मं न त्यजामि मा नो धर्मो हतोऽवधीत् ⁠॥ 
+              </h1>
+
           </div>
         </div>
       </section>
@@ -92,52 +120,52 @@
 
           </section>
         @if(isset($services) &&  !empty($services))
-          <section>
-          
-             <div class="table-responsive">
-                  <table class="table table-bordered text-center">
-                    <thead>
-                      <tr>
-                        <th>GRID</th>
-                        <th>SERVICE DETAIL</th>
-                        <th>CONTACT</th>
-                        <th>EXPERIENCE</th>
-                        <th>REVENUE</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($services as $service)
-                        
-                          @php 
-                          
-                        
-                          $associate = $service->associate; @endphp
-                          <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>
-                              <div class="highlight">{{ $service->title ?? 'N/A' }}</div>
-                              {{ $service->address ?? 'N/A' }}<br>
-                              {{ $service->pincode ?? 'N/A' }}
-                            </td>
-                            <td>
-                              {{ $associate->name ?? 'N/A' }}<br>
-                              {{ $associate->mobile ?? 'N/A' }}<br>
-                              <span class="text-primary">{{ $associate->email ?? 'N/A' }}</span>
-                            </td>
-                            <td>
-                              {{ $service->experience_year ?? 'N/A' }}<br>
-                              {{ $associate->rating ?? 'N/A' }}<br>
-                              {{ $associate->review ?? 'N/A' }}
-                            </td>
-                            <td class="text-danger">
-                              <a href="{{ url('/servicelist?id=' . $service->id) }}">Select</a>
-                            </td>
-                          </tr>
-                        @endforeach
-                      </tbody>
-                  </table>
-              </div>
-          </section>
+          <section class="my-5">
+  <div class="container">
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover text-center service-table">
+        <thead class="thead-dark">
+          <tr>
+            <th>GRID</th>
+            <th>SERVICE DETAIL</th>
+            <th>CONTACT</th>
+            <th>EXPERIENCE</th>
+            <th>REVENUE</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach($services as $service)
+            @php $associate = $service->associate; @endphp
+            <tr>
+              <td>{{ $loop->iteration }}</td>
+              <td>
+                <div class="service-title">{{ $service->title ?? 'N/A' }}</div>
+                <small>{{ $service->address ?? 'N/A' }}</small><br>
+                <small>{{ $service->pincode ?? 'N/A' }}</small>
+              </td>
+              <td>
+                <strong>{{ $associate->name ?? 'N/A' }}</strong><br>
+                <small>{{ $associate->mobile ?? 'N/A' }}</small><br>
+                <small class="text-primary">{{ $associate->email ?? 'N/A' }}</small>
+              </td>
+              <td>
+                <small>{{ $service->experience_year ?? 'N/A' }} Yrs</small><br>
+                <small>⭐ {{ $associate->rating ?? 'N/A' }}</small><br>
+                <small>{{ $associate->review ?? 'N/A' }} Reviews</small>
+              </td>
+              <td>
+                <a href="{{ url('/servicelist?id=' . $service->id) }}" class="btn btn-sm btn-outline-danger">
+                  Select
+                </a>
+              </td>
+            </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
         @endif
         </div>
         <!-- End Tab Content Item -->
