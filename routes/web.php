@@ -64,9 +64,9 @@ Route::post('forgot-password', [LoginController::class, 'sendResetLinkEmail'])->
 
 
 // Dynamic dropdowns (AJAX location fetch)
-Route::get('/get-districts/{state_id}', [LocationController::class, 'getDistricts']);
-Route::get('/get-assemblies/{district_id}', [LocationController::class, 'getAssemblies']);
-Route::post('/get-cities/{assembly_id}', [LocationController::class, 'getCities']);
+Route::get('/get-districts/{state}', [LocationController::class, 'getDistricts']);
+Route::get('/get-assemblies/{district}', [LocationController::class, 'getAssemblies']);
+Route::get('/get-parts/{assembly}', [LocationController::class, 'getParts']);
 
 Route::get('/', [LoginController::class, 'user_login'])->name('user_login');
 Route::get('/home', [LoginController::class, 'home'])->name('home');

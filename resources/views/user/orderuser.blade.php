@@ -10,7 +10,7 @@
     @endif
 
     <div class="table-responsive">
-      <table class="table table-bordered table-hover">
+      <table id="example" class="table table-striped table-bordered">
         <thead class="thead-light">
           <tr>
             <th>ID</th>

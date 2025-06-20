@@ -36,6 +36,7 @@ Class SearchController extends Controller
 
     public function index(Request $request)
     {
+        // dd($request->all());
         $query = Service::with('associate'); // Eager load associate
 
         if ($request->filled('state_id')) {

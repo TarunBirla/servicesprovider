@@ -4,16 +4,17 @@
       <a href="index.html" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1 class="sitename">Services Provider</h1>
+        <h1 class="sitename">SanShakti</h1>
       </a>
 
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="{{url('/')}}" class="nav-link scrollto active">Home</a></li>
+          <li><a href="{{url('/ordertable')}}" class="nav-link scrollto">Orders</a></li>
           <li>
             <form action="{{ route('logout') }}" method="POST" class="d-inline">
               @csrf
-              <button type="submit" class="btn btn-white">Logout</button>
+              <button type="submit" class="btn btn-white nav-link scrollto">Logout</button>
             </form>
         </li>
 

@@ -88,39 +88,40 @@ border-radius: 5px;
               <label class="form-label">Pincode</label>
               <input type="text" class="form-control" name="associate_pincode[]" />
             </div>
-            @php
-                use Illuminate\Support\Facades\DB;
-                $states = DB::table('states')->get();
-              @endphp
+           @php
+                          use Illuminate\Support\Facades\DB;
+                          $states = DB::table('states')->select('st_ut_code as id','name')->get();
+                        @endphp
+
             <div class="form-group col-md-6">
               <label class="form-label">State</label>
-              <select class="form-control" id="state" name="state[]" style="height: 50px;">
-                  <option value="">Select State</option>
-                  @foreach($states as $state)
-                    <option value="{{ $state->id }}">{{ $state->name }}</option>
-                  @endforeach
-                </select>
+             <select class="form-control" id="state" name="state[]" style="height: 50px;">
+                                      <option value="">Select State</option>
+                                      @foreach($states as $state)
+                                        <option value="{{ $state->id }}">{{ $state->name }}</option>
+                                      @endforeach
+                                    </select>
             </div>
             <div class="form-group col-md-6">
                 <label class="form-label">District</label>
-                <select class="form-control" id="district" name="district_name[]" style="height: 50px;">
-                  <option value="">Select District</option>
-                </select>
+               <select class="form-control" id="district" name="district_name[]" style="height: 50px;">
+                                      <option value="">Select District</option>
+                                    </select>
             </div>
 
             <div class="form-group col-md-6">
                 <label class="form-label">Assembly</label>
-                <select class="form-control" id="assembly" name="assembly_name[]" style="height: 50px;">
-                  <option value="">Select Assembly</option>
-                </select>
+                 <select class="form-control" id="assembly" name="assembly_name[]" style="height: 50px;">
+                                      <option value="">Select Assembly</option>
+                                    </select>
             </div>
 
           <div class="form-group col-md-6">
             <label class="form-label">Part</label>
-            <select class="form-control" name="part_name[]">
-              <option>Part 1</option>
-              <option>Part 2</option>
-            </select>
+           
+            <select class="form-control" id="assembly" name="part_name[]" style="height: 50px;">
+                                      <option value="">Select part</option>
+                                    </select>
           </div>
           <div class="form-group col-md-6">
             <label class="form-label">Aadhar (Front)</label>
@@ -142,44 +143,41 @@ border-radius: 5px;
    
   </div>
 
- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
-  $('#state').change(function () {
-    var stateID = $(this).val();
+  $('#state').on('change', function () {
+    const stateId = $(this).val();
     $('#district').html('<option value="">Loading...</option>');
     $('#assembly').html('<option value="">Select Assembly</option>');
 
-    if (stateID) {
-      $.ajax({
-        url: '/get-districts/' + stateID,
-        type: 'GET',
-        success: function (data) {
-          $('#district').html('<option value="">Select District</option>');
-          $.each(data, function (key, value) {
-            $('#district').append('<option value="' + value.id + '">' + value.name + '</option>');
-          });
-        }
-      });
-    }
+    $.get('/get-districts/' + stateId, function (data) {
+      let options = '<option value="">Select District</option>';
+      data.forEach(d => options += `<option value="${d.id}">${d.name}</option>`);
+      $('#district').html(options);
+    });
   });
 
-  $('#district').change(function () {
-    var districtID = $(this).val();
+  $('#district').on('change', function () {
+    const districtId = $(this).val();
     $('#assembly').html('<option value="">Loading...</option>');
 
-    if (districtID) {
-      $.ajax({
-        url: '/get-assemblies/' + districtID,
-        type: 'GET',
-        success: function (data) {
-          $('#assembly').html('<option value="">Select Assembly</option>');
-          $.each(data, function (key, value) {
-            $('#assembly').append('<option value="' + value.id + '">' + value.name + '</option>');
-          });
-        }
-      });
-    }
+    $.get('/get-assemblies/' + districtId, function (data) {
+      let options = '<option value="">Select Assembly</option>';
+      data.forEach(a => options += `<option value="${a.id}">${a.name}</option>`);
+      $('#assembly').html(options);
+    });
   });
+  $('#assembly').on('change', function () {
+  const assemblyId = $(this).val();
+  $('#part').html('<option value="">Loading...</option>');
+
+  $.get('/get-parts/' + assemblyId, function (data) {
+    let options = '<option value="">Select Part</option>';
+    data.forEach(p => options += `<option value="${p.id}">${p.name}</option>`);
+    $('#part').html(options);
+  });
+});
 </script>
 </body>
 </html>

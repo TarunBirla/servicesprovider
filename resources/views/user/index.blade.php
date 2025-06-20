@@ -46,9 +46,9 @@
                   <div id="hero-carousel" data-bs-interval="5000" class="container carousel carousel-fade" data-bs-ride="carousel">
                     <div class="d-flex align-items-center justify-content-center" style="min-height: 60vh;">
                           @php
-                            use Illuminate\Support\Facades\DB;
-                            $states = DB::table('states')->get();
-                          @endphp
+                          use Illuminate\Support\Facades\DB;
+                          $states = DB::table('states')->select('st_ut_code as id','name')->get();
+                        @endphp
 
                         <div class="container text-center">
                           <h2 class="mb-4">Search Home & Office Services</h2>
@@ -56,29 +56,29 @@
                             @csrf
                             <div class="row justify-content-center">
 
-                              <!-- State -->
-                              <div class="col-12 col-md-3 mb-3">
-                                <select class="form-control" id="state" name="state_id" style="height: 50px;">
-                                  <option value="">Select State</option>
-                                  @foreach($states as $state)
-                                    <option value="{{ $state->id }}">{{ $state->name }}</option>
-                                  @endforeach
-                                </select>
-                              </div>
+                             <!-- State -->
+                                  <div class="col-md-3 mb-3">
+                                    <select class="form-control" id="state" name="state_id" style="height: 50px;">
+                                      <option value="">Select State</option>
+                                      @foreach($states as $state)
+                                        <option value="{{ $state->id }}">{{ $state->name }}</option>
+                                      @endforeach
+                                    </select>
+                                  </div>
 
-                              <!-- District -->
-                              <div class="col-12 col-md-3 mb-3">
-                                <select class="form-control" id="district" name="district_id" style="height: 50px;">
-                                  <option value="">Select District</option>
-                                </select>
-                              </div>
+                                  <!-- District -->
+                                  <div class="col-md-3 mb-3">
+                                    <select class="form-control" id="district" name="district_id" style="height: 50px;">
+                                      <option value="">Select District</option>
+                                    </select>
+                                  </div>
 
-                              <!-- Assembly -->
-                              <div class="col-12 col-md-3 mb-3">
-                                <select class="form-control" id="assembly" name="assembly_id" style="height: 50px;">
-                                  <option value="">Select Assembly</option>
-                                </select>
-                              </div>
+                                  <!-- Assembly -->
+                                  <div class="col-md-3 mb-3">
+                                    <select class="form-control" id="assembly" name="assembly_id" style="height: 50px;">
+                                      <option value="">Select Assembly</option>
+                                    </select>
+                                  </div>
 
                               <!-- Category -->
                               <div class="col-12 col-md-3 mb-3">
@@ -123,7 +123,7 @@
           <section class="my-5">
   <div class="container">
     <div class="table-responsive">
-      <table class="table table-bordered table-hover text-center service-table">
+      <table id="example" class="table table-striped table-bordered">
         <thead class="thead-dark">
           <tr>
             <th>GRID</th>
@@ -173,42 +173,39 @@
 
     <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
-  $('#state').change(function () {
-    var stateID = $(this).val();
+  $('#state').on('change', function () {
+    const stateId = $(this).val();
     $('#district').html('<option value="">Loading...</option>');
     $('#assembly').html('<option value="">Select Assembly</option>');
 
-    if (stateID) {
-      $.ajax({
-        url: '/get-districts/' + stateID,
-        type: 'GET',
-        success: function (data) {
-          $('#district').html('<option value="">Select District</option>');
-          $.each(data, function (key, value) {
-            $('#district').append('<option value="' + value.id + '">' + value.name + '</option>');
-          });
-        }
-      });
-    }
+    $.get('/get-districts/' + stateId, function (data) {
+      let options = '<option value="">Select District</option>';
+      data.forEach(d => options += `<option value="${d.id}">${d.name}</option>`);
+      $('#district').html(options);
+    });
   });
 
-  $('#district').change(function () {
-    var districtID = $(this).val();
+  $('#district').on('change', function () {
+    const districtId = $(this).val();
     $('#assembly').html('<option value="">Loading...</option>');
 
-    if (districtID) {
-      $.ajax({
-        url: '/get-assemblies/' + districtID,
-        type: 'GET',
-        success: function (data) {
-          $('#assembly').html('<option value="">Select Assembly</option>');
-          $.each(data, function (key, value) {
-            $('#assembly').append('<option value="' + value.id + '">' + value.name + '</option>');
-          });
-        }
-      });
-    }
+    $.get('/get-assemblies/' + districtId, function (data) {
+      let options = '<option value="">Select Assembly</option>';
+      data.forEach(a => options += `<option value="${a.id}">${a.name}</option>`);
+      $('#assembly').html(options);
+    });
   });
+  $('#assembly').on('change', function () {
+  const assemblyId = $(this).val();
+  $('#part').html('<option value="">Loading...</option>');
+
+  $.get('/get-parts/' + assemblyId, function (data) {
+    let options = '<option value="">Select Part</option>';
+    data.forEach(p => options += `<option value="${p.id}">${p.name}</option>`);
+    $('#part').html(options);
+  });
+});
 </script>
   @endsection
