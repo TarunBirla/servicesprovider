@@ -6,18 +6,18 @@
       
 
       <div class="d-flex justify-content-center text-center" >
-  <h1 style="
-    font-family: 'Tiro Devanagari Sanskrit', serif;
-    letter-spacing: 0.5px;
-    /* font-size: 2rem; */
-    color: #fff;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
-    margin: 0;
-  ">
-    धर्म एव हतो हन्ति धर्मो रक्षति रक्षितः ⁠।
-    तस्माद् धर्मं न त्यजामि मा नो धर्मो हतोऽवधीत् ⁠॥
-  </h1>
-</div>
+        <h1 style="
+          font-family: 'Tiro Devanagari Sanskrit', serif;
+          letter-spacing: 0.5px;
+          /* font-size: 2rem; */
+          color: #fff;
+          text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+          margin: 0;
+        ">
+          धर्म एव हतो हन्ति धर्मो रक्षति रक्षितः ⁠।
+          तस्माद् धर्मं न त्यजामि मा नो धर्मो हतोऽवधीत् ⁠॥
+        </h1>
+      </div>
 
 
     </div>
