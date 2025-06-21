@@ -25,21 +25,14 @@
   <link href="assets/user/vendor/animate.css/animate.min.css" rel="stylesheet">
   <link href="assets/user/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/user/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <!-- <linl href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.css" rel="stylesheet"> -->
-  <!-- <link href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap5.min.css" rel="stylesheet"> -->
-  <!-- <link href="https://cdn.datatables.net/select/1.6.0/css/select.dataTables.min.css" rel="stylesheet"> -->
-
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet">
   <link href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap4.css" rel="stylesheet">
-  <!-- Main CSS File -->
   <link href="assets/user/css/main.css" rel="stylesheet">
-  <!-- =======================================================
-  * Template Name: Selecao
-  * Template URL: https://bootstrapmade.com/selecao-bootstrap-template/
-  * Updated: Aug 07 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+<style>
+  div.table-responsive > div.dt-container > div.row {
+            margin: 15px !important;
+        }
+  </style>
 </head>
 
 <body class="index-page">
@@ -59,30 +52,27 @@
   <script src="assets/user/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/user/vendor/swiper/swiper-bundle.min.js"></script>
 
+  
   <!-- Main JS File -->
   <script src="assets/user/js/main.js"></script>
-  <script>
-    new DataTable('#example');
-    $('#example').DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": true
-            });
-        
-    
-  </script>
-  <!-- https://code.jquery.com/jquery-3.7.1.js
-https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js
-https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js
-https://cdn.datatables.net/2.3.2/js/dataTables.js
-https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap4.js -->
-<script  src="https://code.jquery.com/jquery-3.7.1.js"   integrity="sha256-eKhayi8LEQwp4NKj8Xzj1scN9yblvjVM/3VSNIWpA4k="   crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap4.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": true
+        });
+    });
+    
+</script>
+
 
 </body>
 </html>

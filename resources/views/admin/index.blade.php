@@ -14,20 +14,20 @@
         
       </div>
 
-      <div class="d-lg-flex align-items-center gap-2">
-        <h3 class="text-white mb-2 mb-lg-0 fs-5 text-center">Check Flexy Premium Version</h3>
-        <div class="d-flex align-items-center justify-content-center gap-2">
-          
-          <div class="dropdown d-flex">
-            <a class="btn btn-primary d-flex align-items-center gap-1 " href="javascript:void(0)" id="drop4"
-              data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="ti ti-shopping-cart fs-5"></i>
-              Buy Now
-              <i class="ti ti-chevron-down fs-5"></i>
-            </a>
-          </div>
-        </div>
-      </div>
+      <div class="d-flex justify-content-center text-center" >
+  <h1 style="
+    font-family: 'Tiro Devanagari Sanskrit', serif;
+    letter-spacing: 0.5px;
+    /* font-size: 2rem; */
+    color: #fff;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+    margin: 0;
+  ">
+    धर्म एव हतो हन्ति धर्मो रक्षति रक्षितः ⁠।
+    तस्माद् धर्मं न त्यजामि मा नो धर्मो हतोऽवधीत् ⁠॥
+  </h1>
+</div>
+
 
     </div>
     <!-- Sidebar Start -->

@@ -33,6 +33,8 @@ class LocationController extends Controller
         return response()->json($districts);
     }
     
+
+
     public function getAssemblies($districtCode)
     {
         $assemblies = DB::table('assemblies')->where('district_id', $districtCode)
@@ -54,6 +56,29 @@ class LocationController extends Controller
 
         return response()->json($parts);
     }
+
+    public function getIndustries($sector_code)
+    {
+        $industries = DB::table('service_list')
+            ->where('sector_code','LIKE', $sector_code . '%')
+            ->select('industry_code', 'industry_name')
+            ->distinct()
+            ->get();
+
+        return response()->json(['industries' => $industries]);
+    }
+
+    public function getSubIndustries($industry_code)
+    {
+        $subindustries = DB::table('service_list')
+            ->where('industry_code','LIKE', $industry_code . '%')
+            ->select('subindustry_code', 'subindustry_name')
+            ->distinct()
+            ->get();
+
+        return response()->json(['subindustries' => $subindustries]);
+    }
+
 
     // public function index()
     // {

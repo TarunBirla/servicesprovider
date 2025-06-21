@@ -68,6 +68,10 @@ Route::get('/get-districts/{state}', [LocationController::class, 'getDistricts']
 Route::get('/get-assemblies/{district}', [LocationController::class, 'getAssemblies']);
 Route::get('/get-parts/{assembly}', [LocationController::class, 'getParts']);
 
+Route::get('/get-industries/{sector_code}', [LocationController::class, 'getIndustries']);
+Route::get('/get-subindustries/{industry_code}', [LocationController::class, 'getSubIndustries']);
+
+
 Route::get('/', [LoginController::class, 'user_login'])->name('user_login');
 Route::get('/home', [LoginController::class, 'home'])->name('home');
 Route::post('/search', [SearchController::class, 'index'])->name('search');
