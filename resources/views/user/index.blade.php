@@ -212,7 +212,7 @@
   }
 
   .services-table th {
-    color: white;
+    color: black;
     font-weight: 600;
     padding: 20px 15px;
     border: none;

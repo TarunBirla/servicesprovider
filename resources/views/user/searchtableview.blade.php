@@ -402,17 +402,25 @@
     <div class="col-lg-6">
       <div class="booking-section">
         <h4 class="mb-4"><i class="fas fa-calendar-alt mr-2"></i>Select Date & Time</h4>
-        
+         <div class="row">
+    <div class="col-lg-8">
+      
         <div class="calendar-container">
           <div id="inline-calendar"></div>
         </div>
-        
+    </div>
+    <div class="col-lg-4">
         <div class="time-input-container">
-          <label for="time-slot" class="font-weight-bold mb-2">
-            <i class="fas fa-clock mr-2"></i>Select Time
-          </label>
-          <input type="time" id="time-slot" class="form-control" name="time_slot" placeholder="Select Time">
-        </div>
+                  <label for="time-slot" class="font-weight-bold mb-2">
+                    <i class="fas fa-clock mr-2"></i>Select Time
+                  </label>
+                  <input type="time" id="time-slot" class="form-control" name="time_slot" placeholder="Select Time">
+                </div>
+
+
+
+            </div>
+        </div> 
       </div>
     </div>
 

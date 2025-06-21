@@ -21,12 +21,52 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            position: relative;
+        }
+
+        /* Top Associate Button - Fixed positioning */
+        .top-associate-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+        }
+
+        .top-associate-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            color: #ffffff;
+            background: linear-gradient(135deg, #FA822D 0%, #ff6103 100%);
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(250, 130, 45, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .top-associate-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(250, 130, 45, 0.4);
+            background: linear-gradient(135deg, #ff6103 0%, #FA822D 100%);
+        }
+
+        .top-associate-link:active {
+            transform: translateY(0);
+        }
+
+        .top-associate-link i {
+            font-size: 16px;
         }
 
         /* Alert Styles */
         .alert {
             position: fixed;
-            top: 20px;
+            top: 80px;
             right: 20px;
             padding: 15px 20px;
             border-radius: 10px;
@@ -130,6 +170,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            position: relative;
         }
 
         .form-header {
@@ -176,7 +217,7 @@
             outline: none;
             border-color: #FA822D;
             background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 3px rgba(250, 130, 45, 0.1);
         }
 
         .form-group i {
@@ -205,7 +246,7 @@
         }
 
         .forgot-password a:hover {
-            color: #764ba2;
+            color: #ff6103;
         }
 
         .submit-btn {
@@ -225,7 +266,7 @@
 
         .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 20px rgba(249, 118, 0, 0.3);
         }
 
         .submit-btn:active {
@@ -249,7 +290,7 @@
         }
 
         .form-links a:hover {
-            color: #764ba2;
+            color: #ff6103;
         }
 
         .floating-shapes {
@@ -295,6 +336,11 @@
             50% { transform: translateY(-20px) rotate(180deg); }
         }
 
+        /* Remove the old associate link style since we're not using it anymore */
+        .associate-link {
+            display: none;
+        }
+
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -334,6 +380,21 @@
                 position: static;
                 margin-bottom: 20px;
                 max-width: 100%;
+            }
+
+            .top-associate-container {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+            }
+
+            .top-associate-link {
+                padding: 10px 18px;
+                font-size: 12px;
+            }
+
+            .top-associate-link i {
+                font-size: 14px;
             }
         }
 
@@ -376,9 +437,15 @@
     </style>
 </head>
 <body>
-    <div>
-        <a href="{{ route('register.associate') }}">Associate with us</a>
+    
+    <!-- Top Associate Button -->
+    <div class="top-associate-container">
+        <a href="{{ route('register.associate') }}" class="top-associate-link">
+            <i class="fas fa-handshake"></i>
+            Associate with us
+        </a>
     </div>
+
     <!-- Error and Success Messages -->
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -401,6 +468,7 @@
             <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
         </div>
     @endif
+
     <div class="container">
         
         <div class="image-section">
@@ -535,6 +603,12 @@
             } else {
                 this.style.borderColor = '#e1e5e9';
             }
+        });
+
+        // Add click tracking for associate button
+        document.querySelector('.top-associate-link').addEventListener('click', function(e) {
+            // Add any tracking or analytics here if needed
+            console.log('Associate button clicked');
         });
     </script>
 </body>
