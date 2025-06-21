@@ -12,10 +12,11 @@
           <li><a href="{{url('/')}}" class="nav-link scrollto active">Home</a></li>
           <li><a href="{{url('/ordertable')}}" class="nav-link scrollto">Orders</a></li>
           <li>
-            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+            <!-- <form action="{{ route('logout') }}" method="POST" class="d-inline">
               @csrf
               <button type="submit" class="btn btn-white nav-link scrollto">Logout</button>
-            </form>
+            </form> -->
+            <a href="{{ route('logout') }}" class="btn btn-white nav-link scrollto">Logout</a>
         </li>
 
           <!-- <li><a href="#about">About</a></li>
