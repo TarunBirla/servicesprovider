@@ -62,7 +62,7 @@ Class SearchController extends Controller
 
         $id = $request->input('id');
         $service = Service::findOrFail($id);
-        $service->load('associate'); // Eager load the associate relationship
+        $service->load('associate'); 
 
         return view('user.searchtableview', compact('service'));
     }
