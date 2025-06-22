@@ -12,6 +12,7 @@ use App\Http\Middleware\IsAssociate;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\RatingController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -55,6 +56,11 @@ use Illuminate\Support\Facades\Hash;
     Route::get('/associate/services/create', [ServiceController::class, 'create'])->name('services.create');
     Route::post('/associate/services', [ServiceController::class, 'store'])->name('services.store');
     Route::get('/associate/services/{id}/edit', [ServiceController::class, 'edit'])->name('services.edit');
+
+Route::post('/submit-rating', [RatingController::class, 'store'])->name('rating.submit');
+    Route::get('/rating-history', [RatingController::class, 'ratingHistory'])->name('rating.history');
+    Route::delete('/rating/{id}', [RatingController::class, 'destroy'])->name('rating.delete');
+Route::get('/service/{serviceid}/ratings', [RatingController::class, 'getServiceRatings'])->name('service.ratings');
 
 
 Route::get('register/associate', [RegisterController::class, 'showAssociateForm'])->name('register.associate');
