@@ -563,7 +563,7 @@
           <div class="form-row">
             <div class="form-group col-lg-4">
               <label class="form-label">Sector</label>
-              <select class="form-control" name="sector_code" id="sectorSelect">
+              <select class="form-control" name="sector_code[]" id="sectorSelect">
                 <option value="">Select Sector</option>
                 @foreach(DB::table('service_list')->select('sector_code', 'sector_name')->distinct()->get() as $sector)
                   <option value="{{ $sector->sector_code }}">{{ $sector->sector_name }}</option>
@@ -573,14 +573,14 @@
 
             <div class="form-group col-lg-4">
               <label class="form-label">Industry</label>
-              <select class="form-control" name="industry_code" id="industrySelect">
+              <select class="form-control" name="industry_code[]" id="industrySelect">
                 <option value="">Select Industry</option>
               </select>
             </div>
 
             <div class="form-group col-lg-4">
               <label class="form-label">Sub Industry</label>
-              <select class="form-control" name="subindustry_code" id="subIndustrySelect">
+              <select class="form-control" name="subindustry_code[]" id="subIndustrySelect">
                 <option value="">Select Sub Industry</option>
               </select>
             </div>
@@ -614,6 +614,7 @@
               <label class="form-label">Coverage Area (State/UT)</label>
               <select class="form-control state-select" name="associate_trade_st_ut_name[]">
                 <option value="">Select State</option>
+                <option value="all">All Over India</option>
                 @foreach(DB::table('states')->get() as $state)
                   <option value="{{ $state->st_ut_code }}">{{ $state->name }}</option>
                 @endforeach
@@ -638,10 +639,8 @@
             
             <div class="form-group col-lg-4">
               <label class="form-label">Part</label>
-              <select class="form-control" name="associate_trade_part_name[]">
+              <select class="form-control assembly-select" name="associate_trade_part_name[]">
                 <option value="">Select Part</option>
-                <option value="Part 1">Part 1</option>
-                <option value="Part 2">Part 2</option>
               </select>
             </div>
           </div>
@@ -714,59 +713,111 @@
     });
 
     // AJAX handlers for dropdowns
+ // STATE -> DISTRICT
     $(document).on('change', '.state-select', function () {
       var $row = $(this).closest('.other-revenue-form');
       var stateID = $(this).val();
       var $districtSelect = $row.find('.district-select');
       var $assemblySelect = $row.find('.assembly-select');
+      var $partSelect = $row.find('.part-select');
 
-      $districtSelect.html('<option value=""><span class="loading-spinner"></span>Loading Districts...</option>');
+      $districtSelect.html('<option value="">Loading Districts...</option>');
       $assemblySelect.html('<option value="">Select Assembly</option>');
+      $partSelect.html('<option value="">Select Part</option>');
 
-      if (stateID) {
-        $.ajax({
-          url: '/get-districts/' + stateID,
-          type: 'GET',
-          success: function (data) {
-            $districtSelect.html('<option value="">Select District</option>');
-            $.each(data, function (key, value) {
-              $districtSelect.append('<option value="' + value.id + '">' + value.name + '</option>');
-            });
-          },
-          error: function() {
-            $districtSelect.html('<option value="">Error loading districts</option>');
-          }
-        });
-      } else {
-        $districtSelect.html('<option value="">Select District</option>');
+      if (stateID === 'all') {
+        $districtSelect.html('<option value="all_state">All Over State</option>');
+        $assemblySelect.html('<option value="all_district">All Over District</option>');
+        $partSelect.html('<option value="all_assembly">All Over Assembly</option>');
+        return;
       }
+
+      $.ajax({
+        url: '/get-districts/' + stateID,
+        type: 'GET',
+        success: function (data) {
+          let options = '<option value="">Select District</option>';
+            options += '<option value="all_state">All Over State</option>';
+          $.each(data, function (key, value) {
+            options += '<option value="' + value.id + '">' + value.name + '</option>';
+          });
+        
+          $districtSelect.html(options);
+        },
+        error: function () {
+          $districtSelect.html('<option value="">Error loading districts</option>');
+        }
+      });
     });
 
     $(document).on('change', '.district-select', function () {
-      var $row = $(this).closest('.other-revenue-form');
+       var $row = $(this).closest('.other-revenue-form');
       var districtID = $(this).val();
       var $assemblySelect = $row.find('.assembly-select');
+      var $partSelect = $row.find('.part-select');
 
-      $assemblySelect.html('<option value=""><span class="loading-spinner"></span>Loading Assemblies...</option>');
+      $assemblySelect.html('<option value="">Loading Assemblies...</option>');
+      $partSelect.html('<option value="">Select Part</option><option value="all_assembly">All_Over_Assembly</option>');
 
-      if (districtID) {
-        $.ajax({
-          url: '/get-assemblies/' + districtID,
-          type: 'GET',
-          success: function (data) {
-            $assemblySelect.html('<option value="">Select Assembly</option>');
-            $.each(data, function (key, value) {
-              $assemblySelect.append('<option value="' + value.id + '">' + value.name + '</option>');
-            });
-          },
-          error: function() {
-            $assemblySelect.html('<option value="">Error loading assemblies</option>');
-          }
+      if (districtID === 'all_state') {
+        // All Over State selected → show only All Over options in Assembly & Part
+        $assemblySelect.html('<option value="all_district">All Over District</option>');
+        $partSelect.html('<option value="all_assembly">All Over Assembly</option>');
+        return;
+      }
+
+      // Normal flow: fetch assemblies
+      $.ajax({
+        url: '/get-assemblies/' + districtID,
+        type: 'GET',
+        success: function (data) {
+          let options = '<option value="">Select Assembly</option>';
+           options += '<option value="all_district">All Over District</option>';
+          $.each(data, function (key, value) {
+            options += '<option value="' + value.id + '">' + value.name + '</option>';
+          });
+         
+          $assemblySelect.html(options);
+        },
+        error: function () {
+          $assemblySelect.html('<option value="">Error loading assemblies</option>');
+        }
+      });
+    });
+
+
+  $(document).on('change', '.assembly-select', function () {
+    var $row = $(this).closest('.other-revenue-form');
+    var assemblyID = $(this).val();
+    var $partSelect = $row.find('.part-select');
+
+    $partSelect.html('<option value="">Loading Parts...</option>');
+
+    if (assemblyID === 'all_district') {
+      // All Over District selected → show only All Over Assembly
+      $partSelect.html('<option value="all_assembly">All Over Assembly</option>');
+      return;
+    }
+
+    // Normal flow: fetch parts
+    $.ajax({
+      url: '/get-parts/' + assemblyID,
+      type: 'GET',
+      success: function (data) {
+        let options = '<option value="">Select Part</option>';
+         options += '<option value="all_assembly">All Over Assembly</option>';
+        $.each(data, function (key, value) {
+          options += '<option value="' + value.id + '">' + value.name + '</option>';
         });
-      } else {
-        $assemblySelect.html('<option value="">Select Assembly</option>');
+       
+        $partSelect.html(options);
+      },
+      error: function () {
+        $partSelect.html('<option value="">Error loading parts</option>');
       }
     });
+  });
+
 
     // Form submission handler
     document.getElementById('professionalForm').addEventListener('submit', function(e) {

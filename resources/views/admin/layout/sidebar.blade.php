@@ -42,31 +42,31 @@
                 <span class="hide-menu">Associates</span>
               </a>
             </li>
-            <li class="sidebar-item">
+            <!-- <li class="sidebar-item">
               <a class="sidebar-link" href="{{ url('/admin/plans') }}" aria-expanded="false">
                 <i class="ti ti-package"></i>
                 <span class="hide-menu">Plans</span>
               </a>
-            </li>
-            <li class="sidebar-item">
+            </li> -->
+            <!-- <li class="sidebar-item">
               <a class="sidebar-link" href="{{ url('/admin/locations') }}" aria-expanded="false">
                 <i class="ti ti-map"></i>
                 <span class="hide-menu">Locations</span>
               </a>
-            </li>
+            </li> -->
             
-            <li class="sidebar-item">
+            <!-- <li class="sidebar-item">
               <a class="sidebar-link" href="{{ url('/admin/transactions') }}" aria-expanded="false">
                 <i class="ti ti-exchange"></i>
                 <span class="hide-menu">Transactions</span>
               </a>
-            </li>
-            <li class="sidebar-item">
+            </li> -->
+            <!-- <li class="sidebar-item">
               <a class="sidebar-link" href="{{ url('/admin/settings') }}" aria-expanded="false">
                 <i class="ti ti-settings"></i>
                 <span class="hide-menu">Settings</span>
               </a>
-            </li>
+            </li> -->
             <li class="sidebar-item">
               <a class="sidebar-link" href="{{ url('/admin/logout') }}" aria-expanded="false">
                 <i class="ti ti-logout"></i>

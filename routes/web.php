@@ -80,13 +80,17 @@ Route::get('/get-subindustries/{industry_code}', [LocationController::class, 'ge
 
 Route::get('/', [LoginController::class, 'user_login'])->name('user_login');
 Route::get('/home', [LoginController::class, 'home'])->name('home');
-Route::post('/search', [SearchController::class, 'index'])->name('search');
-Route::get('/servicelist', [SearchController::class, 'service_details'])->name('searchtable');
-Route::get('/order/service/{id}', [ServiceOrderController::class, 'create'])->name('order.service');
+
+
+Route::middleware('auth')->group(function () {
+    Route::post('/search', [SearchController::class, 'index'])->name('search');
+    Route::get('/servicelist', [SearchController::class, 'service_details'])->name('searchtable');
+    Route::get('/order/service/{id}', [ServiceOrderController::class, 'create'])->name('order.service');
     Route::post('/order/submit', [ServiceOrderController::class, 'store'])->name('order.submit');
-Route::get('/order/thankyou', function () {
-    return view('user.thankyou');
-})->name('user.thankyou');
+    Route::get('/order/thankyou', function () {
+        return view('user.thankyou');
+    })->name('user.thankyou');
+});
 
 
 Route::get('/userlogin', function () { 
@@ -115,4 +119,4 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/login',[LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::any('/logout', [LoginController::class, 'logout'])->name('logout');

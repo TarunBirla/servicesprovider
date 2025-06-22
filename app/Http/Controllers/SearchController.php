@@ -34,20 +34,44 @@ Class SearchController extends Controller
     //     return view('user.search', compact('services'));
     // }
 
+    // public function index(Request $request)
+    // {
+    //     // dd($request->all());
+    //     $query = Service::with('associate'); // Eager load associate
+
+    //     if ($request->filled('state_id')) {
+    //         $query->where('state', $request->state_id);
+    //     }
+
+    //     if ($request->filled('district_id')) {
+    //         $query->where('district_name', $request->district_id);
+    //     }
+
+    //     if ($request->filled('assembly_id')) {
+    //         $query->where('assembly_name', $request->assembly_id);
+    //     }
+
+    //     $services = $query->get();
+
+    //     return view('user.index', compact('services'));
+    // }
+
     public function index(Request $request)
     {
-        // dd($request->all());
         $query = Service::with('associate'); // Eager load associate
 
-        if ($request->filled('state_id')) {
+        // Apply state filter only if a specific state is selected
+        if ($request->filled('state_id') && $request->state_id !== 'all') {
             $query->where('state', $request->state_id);
         }
 
-        if ($request->filled('district_id')) {
+        // Apply district filter only if a specific district is selected
+        if ($request->filled('district_id') && $request->district_id !== 'all_state') {
             $query->where('district_name', $request->district_id);
         }
 
-        if ($request->filled('assembly_id')) {
+        // Apply assembly filter only if a specific assembly is selected
+        if ($request->filled('assembly_id') && $request->assembly_id !== 'all_district') {
             $query->where('assembly_name', $request->assembly_id);
         }
 
@@ -55,6 +79,7 @@ Class SearchController extends Controller
 
         return view('user.index', compact('services'));
     }
+
 
 
     public function service_details(Request $request)

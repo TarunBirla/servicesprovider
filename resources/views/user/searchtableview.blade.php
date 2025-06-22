@@ -424,6 +424,16 @@
       </div>
     </div>
 
+    @php
+        $amount = $service->amount ?? 0;
+        $cgst = $amount * 0.09;
+        $sgst = $amount * 0.09;
+        $igst = 0; 
+        $serviceCharges = 0;
+        $otherCharges =  0;
+
+        $grandTotal = $amount + $cgst + $sgst + $serviceCharges + $otherCharges;
+    @endphp
     <div class="col-lg-6">
       <div class="confirmation-section">
         <div class="confirmation-header">
@@ -437,27 +447,32 @@
         <div class="price-breakdown" id="confirmation-header">
           <div class="price-row">
             <span><i class="fas fa-tag mr-2"></i>Service Amount</span>
-            <span>₹{{ number_format($service->amount ?? 0, 2) }}</span>
+            <span>₹{{ number_format($amount, 2) }}</span>
           </div>
+
           <div class="price-row">
             <span><i class="fas fa-cog mr-2"></i>Service Charges</span>
-            <span>₹0.00</span>
+            <span>₹{{ number_format($serviceCharges, 2) }}</span>
           </div>
+
           <div class="price-row">
-            <span><i class="fas fa-percent mr-2"></i>IGST/CGST</span>
-            <span>₹0.00</span>
+            <span><i class="fas fa-percent mr-2"></i>CGST (9%)</span>
+            <span>₹{{ number_format($cgst, 2) }}</span>
           </div>
+
           <div class="price-row">
-            <span><i class="fas fa-percent mr-2"></i>SGST</span>
-            <span>₹0.00</span>
+            <span><i class="fas fa-percent mr-2"></i>SGST (9%)</span>
+            <span>₹{{ number_format($sgst, 2) }}</span>
           </div>
+
           <div class="price-row">
             <span><i class="fas fa-plus mr-2"></i>Other Charges</span>
-            <span>₹0.00</span>
+            <span>₹{{ number_format($otherCharges, 2) }}</span>
           </div>
+
           <div class="price-row">
-            <span><i class="fas fa-calculator mr-2"></i>Grand Total</span>
-            <span>₹{{ number_format($service->amount ?? 0, 2) }}</span>
+            <span><i class="fas fa-calculator mr-2"></i><strong>Grand Total</strong></span>
+            <span><strong>₹{{ number_format($grandTotal, 2) }}</strong></span>
           </div>
         </div>
 
