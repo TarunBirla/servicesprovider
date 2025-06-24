@@ -42,6 +42,12 @@
                 <span class="hide-menu">Associates</span>
               </a>
             </li>
+             <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ url('/admin/suggestions') }}" aria-expanded="false">
+                <i class="ti ti-user-plus"></i>
+                <span class="hide-menu">Suggestions</span>
+              </a>
+            </li>
             <!-- <li class="sidebar-item">
               <a class="sidebar-link" href="{{ url('/admin/plans') }}" aria-expanded="false">
                 <i class="ti ti-package"></i>

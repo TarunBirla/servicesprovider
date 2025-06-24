@@ -58,6 +58,12 @@
                 <span class="hide-menu">Orders</span>
               </a>
             </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{route('suggestions.associate')}}" aria-expanded="false">
+                <i class="ti ti-atom"></i>
+                <span class="hide-menu">Suggestions</span>
+              </a>
+            </li>
           </ul>
         </nav>
         <!-- End Sidebar navigation -->

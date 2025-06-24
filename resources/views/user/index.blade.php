@@ -433,7 +433,7 @@
           @csrf
           <div class="row">
             <!-- State -->
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-4 col-md-6">
               <div class="form-group">
                 <select class="form-control" id="state" name="state_id">
                   <option value="">🏛️ Select State</option>
@@ -445,7 +445,7 @@
             </div>
 
             <!-- District -->
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-4 col-md-6">
               <div class="form-group">
                 <select class="form-control" id="district" name="district_id">
                   <option value="">🏙️ Select District</option>
@@ -454,7 +454,7 @@
             </div>
 
             <!-- Assembly -->
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-4 col-md-6">
               <div class="form-group">
                 <select class="form-control" id="assembly" name="assembly_id">
                   <option value="">🏛️ Select Assembly</option>
@@ -463,15 +463,34 @@
             </div>
 
             <!-- Category -->
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-4 col-md-6">
               <div class="form-group">
-                <select class="form-control" name="category">
-                  <option value="">🔧 Select Service</option>
-                  <option value="Technologist">💻 Technologist</option>
-                  <option value="Electrician">⚡ Electrician</option>
-                  <option value="Plumber">🔧 Plumber</option>
-                  <option value="Carpenter">🔨 Carpenter</option>
-                </select>
+                 <select class="form-control" name="sector_code[]" id="sectorSelect">
+                <option value="">Select Sector</option>
+                @foreach(DB::table('service_list')->select('sector_code', 'sector_name')->distinct()->get() as $sector)
+                  <option value="{{ $sector->sector_code }}">{{ $sector->sector_name }}</option>
+                @endforeach
+              </select>
+              </div>
+            </div>
+
+
+            <div class="col-lg-4 col-md-6">
+              <div class="form-group">
+                 <select class="form-control" name="industry_code[]" id="industrySelect">
+                <option value="">Select Industry</option>
+              </select>
+              </div>
+            </div>
+
+
+
+            <div class="col-lg-4 col-md-6">
+              <div class="form-group">
+                  <select class="form-control" name="subindustry_code[]" id="subIndustrySelect">
+                <option value="">Select Sub Industry</option>
+              </select>
+                
               </div>
             </div>
 

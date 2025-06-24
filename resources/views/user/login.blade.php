@@ -288,10 +288,15 @@
             font-size: 14px;
             transition: color 0.3s ease;
         }
+        
 
         .form-links a:hover {
             color: #ff6103;
         }
+       input[type="radio"] {
+  accent-color: #ff6103; /* Changes the color of the radio */
+}
+        
 
         .floating-shapes {
             position: absolute;
@@ -503,6 +508,21 @@
                     <i class="fas fa-eye password-toggle" id="togglePassword"></i>
                 </div>
 
+                <div class="row form-links">
+                    <a>
+                            <input class="form-check-input" type="radio" >
+                            <label class="form-check-label" for="remember">
+                                User
+                            </label>
+                    </a>
+
+                     <a>
+                            <input class="form-check-input" type="radio" >
+                            <label class="form-check-label" >
+                                Asssociate
+                            </label>
+                    </a>
+                </div>
                 <div class="forgot-password">
                     <a href="{{ route('password.request') }}">Forgot Password?</a>
                 </div>

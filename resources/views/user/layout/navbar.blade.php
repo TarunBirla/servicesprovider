@@ -11,6 +11,7 @@
         <ul>
           <li><a href="{{url('/')}}" class="nav-link scrollto active">Home</a></li>
           <li><a href="{{url('/ordertable')}}" class="nav-link scrollto">Orders</a></li>
+          <li><a href="{{url('/suggestions')}}" class="nav-link scrollto">Suggestion</a></li>
           <li>
             <!-- <form action="{{ route('logout') }}" method="POST" class="d-inline">
               @csrf

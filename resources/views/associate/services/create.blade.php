@@ -490,10 +490,10 @@
           </div>
 
           <div class="btn-actions">
-            <button type="button" id="addMoreBtn" class="btn btn-success">
+            <!-- <button type="button" id="addMoreBtn" class="btn btn-success">
               <i class="fas fa-plus"></i>
               Add Professional Details
-            </button>
+            </button> -->
             <button type="submit" class="btn btn-primary">
               <i class="fas fa-save"></i>
               Submit Details
@@ -661,10 +661,10 @@
         formCount++;
         
         // Update button text
-        const addBtn = document.getElementById('addMoreBtn');
-        if (formCount >= maxOtherRevenueForms && selectedRevenueType !== 'COMMERCIAL') {
-          addBtn.style.display = 'none';
-        }
+        // const addBtn = document.getElementById('addMoreBtn');
+        // if (formCount >= maxOtherRevenueForms && selectedRevenueType !== 'COMMERCIAL') {
+        //   addBtn.style.display = 'none';
+        // }
       }
     }
 
@@ -680,13 +680,13 @@
         }
         
         // Show add button again if hidden
-        const addBtn = document.getElementById('addMoreBtn');
-        addBtn.style.display = 'inline-flex';
+        // const addBtn = document.getElementById('addMoreBtn');
+        // addBtn.style.display = 'inline-flex';
       }
     }
 
     // Event listeners
-    document.getElementById('addMoreBtn').addEventListener('click', addFormSection);
+    // document.getElementById('addMoreBtn').addEventListener('click', addFormSection);
 
     document.addEventListener('change', function (e) {
       if (e.target && e.target.classList.contains('revenueTypeSelect')) {

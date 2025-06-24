@@ -13,6 +13,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\SuggestionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -51,6 +52,18 @@ use Illuminate\Support\Facades\Hash;
     Route::get('/associate/Orders', [ServiceOrderController::class, 'index'])->name('services.orders');
     Route::put('/associate/Orders/{id}', [ServiceOrderController::class, 'updateStatus'])->name('orders.updateStatus');
     Route::get('/ordertable', [ServiceOrderController::class, 'ordertable'])->middleware('auth')->name('ordertable');
+
+
+
+Route::get('/suggestions', [SuggestionController::class, 'indexUser'])->name('suggestions.user'); // show user form
+Route::post('/suggestions', [SuggestionController::class, 'store'])->name('suggestions.store'); // user submit
+
+Route::get('/associate/suggestions', [SuggestionController::class, 'indexAssociate'])->name('suggestions.associate'); // show associate form
+Route::post('/associate/suggestions', [SuggestionController::class, 'store'])->name('suggestions.store.associate'); // associate submit
+
+Route::get('/admin/suggestions', [SuggestionController::class, 'show'])->name('suggestions.admin'); 
+Route::post('/suggestions/{id}/update-status', [SuggestionController::class, 'updateStatus'])->name('suggestions.updateStatus'); 
+// admin update
 
 
     Route::get('/associate/services/create', [ServiceController::class, 'create'])->name('services.create');
