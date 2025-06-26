@@ -1,40 +1,12 @@
-<!-- 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-
-<body>
-  <div class="container mt-5 text-center">
-    <h1 class="text-success">Thank You!</h1>
-    <p class="lead">Your service order has been placed successfully.</p>
-    <a href="{{ route('home') }}" class="btn btn-primary mt-3">Back to Home</a>
-    <a href="{{ route('ordertable') }}" class="btn btn-warning mt-3">Order History</a>
-
-</div>
-</body>
-</html> -->
-
-
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <title>Thank You - Order Confirmation</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <style>
   :root {
@@ -174,6 +146,8 @@
     text-decoration: none;
     transition: all 0.3s ease;
     min-width: 180px;
+    text-align: center;
+    display: inline-block;
   }
 
   .btn-primary-action {
@@ -228,6 +202,14 @@
     margin: 0 auto 20px;
   }
 
+  .service-info {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -247,8 +229,6 @@
   }
 </style>
 <body>
-  
-
 
 <div class="thank-you-container">
   <!-- Success Card -->
@@ -258,9 +238,12 @@
     </div>
     <h1 class="success-title">Thank You!</h1>
     <p class="lead">Your service order has been placed successfully.</p>
+    
+   
   </div>
 
-  <!-- Rating Card -->
+  <!-- Rating Card - Only show if service exists -->
+
   <div class="rating-card" id="rating-card">
     <div class="rating-header">
       <h3><i class="fas fa-star mr-2"></i>Rate Your Experience</h3>
@@ -268,7 +251,8 @@
     </div>
 
     <form method="POST" id="rating-form">
-    
+      <!-- @csrf -->
+      <input type="hidden" name="serviceid" value="{{ $service->id }}">
       
       <!-- Star Rating -->
       <div class="star-rating">
@@ -317,16 +301,26 @@
     </div>
   </div>
 
+  
+  <!-- Alternative message when no service is available -->
+  
+  
+
+  
+
   <!-- Action Buttons -->
   <div class="action-buttons" id="action-buttons">
     <a href="{{ route('home') }}" class="btn-action btn-primary-action">
       <i class="fas fa-home mr-2"></i>Back to Home
     </a>
+    @if(Route::has('rating.history'))
     <a href="{{ route('rating.history') }}" class="btn-action btn-warning-action">
       <i class="fas fa-history mr-2"></i>Rating History
     </a>
-    <a href="{{ route('ordertable') }}" class="btn-action btn-primary-action">Order History</a>
-
+    @endif
+    <a href="{{ route('ordertable') }}" class="btn-action btn-primary-action">
+      <i class="fas fa-list mr-2"></i>Order History
+    </a>
   </div>
 </div>
 
@@ -341,148 +335,71 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function() {
-    let selectedRating = 0;
-    
-    // Star rating functionality
-    $('.star').on('click', function() {
-        selectedRating = $(this).data('rating');
-        updateStars();
-        updateSubmitButton();
-        
-        $('#rating-value').val(selectedRating);
-        $('#selected-rating').show();
-        $('#rating-text').text(selectedRating);
+$(function() {
+  $.ajaxSetup({
+    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+  });
+
+  let selectedRating = 0;
+
+  $('.star').on('click', function() {
+    selectedRating = $(this).data('rating');
+    $('#rating-value').val(selectedRating); // store value
+    $('#selected-rating').show().find('#rating-text').text(selectedRating);
+    $('.star').removeClass('selected')
+              .each((i, el) => { if (i < selectedRating) $(el).addClass('selected'); });
+    updateSubmitButton();
+  });
+
+  $('#name').on('input', updateSubmitButton);
+
+  function updateSubmitButton() {
+    $('#submit-btn').prop(
+      'disabled', 
+      selectedRating === 0 || $('#name').val().trim().length === 0
+    );
+  }
+
+  $('#rating-form').on('submit', function(e) {
+    e.preventDefault();
+    if (selectedRating === 0) return alert('Please select a rating.');
+    if ($('#name').val().trim() === '') return alert('Please enter your name.');
+
+    $('#loading-overlay').show();
+
+    $.post(
+      '{{ route('rating.store') }}',
+      {
+        serviceid: $('input[name="serviceid"]').val(),
+        name: $('#name').val(),
+        rating: selectedRating,
+        note: $('#note').val()
+      }
+    )
+    .done(response => {
+      $('#loading-overlay').hide();
+      if (response.success) {
+        $('#rating-form').hide();
+        $('#rating-success').show();
+      } else {
+        alert(response.message || 'Error.');
+      }
+    })
+    .fail(xhr => {
+      $('#loading-overlay').hide();
+      let msg = 'Error occurred';
+      if (xhr.responseJSON) {
+        msg = xhr.responseJSON.message || JSON.stringify(xhr.responseJSON.errors);
+      }
+      alert(msg);
     });
-
-    $('.star').on('mouseover', function() {
-        const hoverRating = $(this).data('rating');
-        highlightStars(hoverRating);
-    });
-
-    $('.star-rating').on('mouseleave', function() {
-        updateStars();
-    });
-
-    function highlightStars(rating) {
-        $('.star').each(function(index) {
-            if (index < rating) {
-                $(this).addClass('selected');
-            } else {
-                $(this).removeClass('selected');
-            }
-        });
-    }
-
-    function updateStars() {
-        $('.star').each(function(index) {
-            if (index < selectedRating) {
-                $(this).addClass('selected');
-            } else {
-                $(this).removeClass('selected');
-            }
-        });
-    }
-
-    function updateSubmitButton() {
-        const nameValue = $('#name').val().trim();
-        if (selectedRating > 0 && nameValue.length > 0) {
-            $('#submit-btn').prop('disabled', false);
-        } else {
-            $('#submit-btn').prop('disabled', true);
-        }
-    }
-
-    // Check name field
-    $('#name').on('input', function() {
-        updateSubmitButton();
-    });
-
-    // Form submission
-    $('#rating-form').on('submit', function(e) {
-        e.preventDefault();
-        
-        if (selectedRating === 0) {
-            alert('Please select a rating before submitting.');
-            return;
-        }
-
-        const nameValue = $('#name').val().trim();
-        if (nameValue.length === 0) {
-            alert('Please enter your name.');
-            $('#name').focus();
-            return;
-        }
-
-        // Show loading
-        $('#loading-overlay').show();
-        $('#submit-btn').prop('disabled', true);
-
-        // Prepare form data
-        const formData = {
-            serviceid: $('input[name="serviceid"]').val(),
-            name: nameValue,
-            rating: selectedRating,
-            note: $('#note').val(),
-            _token: $('input[name="_token"]').val()
-        };
-
-        // Submit via AJAX
-        $.ajax({
-            url: '{{ route("rating.submit") }}',
-            method: 'POST',
-            data: formData,
-            success: function(response) {
-                $('#loading-overlay').hide();
-                
-                if (response.success) {
-                    // Hide form and show success message
-                    $('#rating-form').hide();
-                    $('#rating-success').show();
-                    
-                    // Show success notification
-                    showNotification('Rating submitted successfully!', 'success');
-                } else {
-                    showNotification(response.message || 'Failed to submit rating.', 'error');
-                    $('#submit-btn').prop('disabled', false);
-                }
-            },
-            error: function(xhr) {
-                $('#loading-overlay').hide();
-                $('#submit-btn').prop('disabled', false);
-                
-                let errorMessage = 'An error occurred. Please try again.';
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    errorMessage = xhr.responseJSON.message;
-                }
-                
-                showNotification(errorMessage, 'error');
-            }
-        });
-    });
-
-    function showNotification(message, type) {
-        const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
-        const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle';
-        
-        const notification = `
-            <div class="alert ${alertClass} alert-dismissible fade show" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 10000; min-width: 300px;">
-                <i class="fas ${icon} mr-2"></i>
-                ${message}
-                <button type="button" class="close" data-dismiss="alert">
-                    <span>&times;</span>
-                </button>
-            </div>
-        `;
-        
-        $('body').append(notification);
-        
-        // Auto remove after 5 seconds
-        setTimeout(function() {
-            $('.alert').fadeOut();
-        }, 5000);
-    }
+  });
 });
 </script>
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

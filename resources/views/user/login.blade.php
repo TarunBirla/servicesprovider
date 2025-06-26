@@ -127,7 +127,7 @@
         }
 
         .image-section {
-            background:linear-gradient(45deg, #ff6103, #c3b2b2);
+            background: linear-gradient(45deg, #ff6103, #c3b2b2);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -233,6 +233,66 @@
             color: #FA822D;
         }
 
+        /* Role Selection Styles */
+        .role-selection {
+            margin-bottom: 25px;
+        }
+
+        .role-selection h3 {
+            color: #333;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .role-options {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .role-option {
+            flex: 1;
+            position: relative;
+        }
+
+        .role-option input[type="radio"] {
+            display: none;
+        }
+
+        .role-option label {
+            display: block;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #666;
+            position: relative;
+        }
+
+        .role-option label:hover {
+            border-color: #FA822D;
+            background: rgba(250, 130, 45, 0.05);
+        }
+
+        .role-option input[type="radio"]:checked + label {
+            background: linear-gradient(135deg, #FA822D 0%, #ff6103 100%);
+            color: white;
+            border-color: #FA822D;
+            box-shadow: 0 4px 15px rgba(250, 130, 45, 0.3);
+        }
+
+        .role-option label i {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
         .forgot-password {
             text-align: right;
             margin-bottom: 25px;
@@ -273,6 +333,12 @@
             transform: translateY(0);
         }
 
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .form-links {
             display: flex;
             justify-content: space-between;
@@ -288,15 +354,10 @@
             font-size: 14px;
             transition: color 0.3s ease;
         }
-        
 
         .form-links a:hover {
             color: #ff6103;
         }
-       input[type="radio"] {
-  accent-color: #ff6103; /* Changes the color of the radio */
-}
-        
 
         .floating-shapes {
             position: absolute;
@@ -341,11 +402,6 @@
             50% { transform: translateY(-20px) rotate(180deg); }
         }
 
-        /* Remove the old associate link style since we're not using it anymore */
-        .associate-link {
-            display: none;
-        }
-
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -374,6 +430,11 @@
 
             .logo {
                 font-size: 2rem;
+            }
+
+            .role-options {
+                flex-direction: column;
+                gap: 10px;
             }
 
             .form-links {
@@ -439,6 +500,23 @@
         .password-toggle:hover {
             color: #FA822D !important;
         }
+
+        /* Error state for form validation */
+        .form-group.error input {
+            border-color: #e74c3c;
+            background: rgba(231, 76, 60, 0.05);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -498,31 +576,46 @@
             <form id="loginForm" action="{{ route('login') }}" method="POST">
                 @csrf
                 
+                <!-- Role Selection -->
+                <div class="role-selection">
+                    <h3>Select Your Role</h3>
+                    <div class="role-options">
+                        <div class="role-option">
+                            <input type="radio" id="user" name="role" value="user" checked>
+                            <label for="user">
+                                <i class="fas fa-user"></i>
+                                User
+                            </label>
+                        </div>
+                        <div class="role-option">
+                            <input type="radio" id="associate" name="role" value="associate">
+                            <label for="associate">
+                                <i class="fas fa-handshake"></i>
+                                Associate
+                            </label>
+                        </div>
+                        <div class="role-option">
+                            <input type="radio" id="admin" name="role" value="admin">
+                            <label for="admin">
+                                <i class="fas fa-crown"></i>
+                                Admin
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="form-group">
                     <input type="email" name="email" id="email" placeholder="Email Address" required>
                     <i class="fas fa-envelope"></i>
+                    <div class="error-message">Please enter a valid email address</div>
                 </div>
 
                 <div class="form-group">
                     <input type="password" name="password" id="password" placeholder="Password" required>
                     <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                    <div class="error-message">Password must be at least 6 characters long</div>
                 </div>
 
-                <div class="row form-links">
-                    <a>
-                            <input class="form-check-input" type="radio" >
-                            <label class="form-check-label" for="remember">
-                                User
-                            </label>
-                    </a>
-
-                     <a>
-                            <input class="form-check-input" type="radio" >
-                            <label class="form-check-label" >
-                                Asssociate
-                            </label>
-                    </a>
-                </div>
                 <div class="forgot-password">
                     <a href="{{ route('password.request') }}">Forgot Password?</a>
                 </div>
@@ -556,25 +649,97 @@
             }
         });
 
+        // Form validation
+        function validateForm() {
+            let isValid = true;
+            const email = document.getElementById('email');
+            const password = document.getElementById('password');
+            const role = document.querySelector('input[name="role"]:checked');
+
+            // Reset error states
+            document.querySelectorAll('.form-group').forEach(group => {
+                group.classList.remove('error');
+            });
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email.value || !emailRegex.test(email.value)) {
+                email.parentElement.classList.add('error');
+                isValid = false;
+            }
+
+            // Password validation
+            if (!password.value || password.value.length < 6) {
+                password.parentElement.classList.add('error');
+                isValid = false;
+            }
+
+            // Role validation
+            if (!role) {
+                alert('Please select a role');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
         // Add loading state to form submission
-        document.getElementById('loginForm').addEventListener('submit', function() {
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            if (!validateForm()) {
+                e.preventDefault();
+                return;
+            }
+
             const submitBtn = document.getElementById('submitBtn');
+            const selectedRole = document.querySelector('input[name="role"]:checked').value;
+            
             submitBtn.classList.add('loading');
-            submitBtn.textContent = 'Signing In...';
+            submitBtn.textContent = `Signing in as ${selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1)}...`;
         });
 
-        // Add focus animations to form inputs
-        const inputs = document.querySelectorAll('input');
-        inputs.forEach(input => {
-            input.addEventListener('focus', function() {
-                this.parentElement.classList.add('focused');
-            });
-            
-            input.addEventListener('blur', function() {
-                if (this.value === '') {
-                    this.parentElement.classList.remove('focused');
+        // Role selection feedback
+        document.querySelectorAll('input[name="role"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const selectedRole = this.value;
+                const welcomeText = document.querySelector('.welcome-content p');
+                
+                switch(selectedRole) {
+                    case 'user':
+                        welcomeText.textContent = 'Welcome back! Access your personal dashboard and manage your account.';
+                        break;
+                    case 'associate':
+                        welcomeText.textContent = 'Welcome back, Associate! Access your partnership tools and dashboard.';
+                        break;
+                    case 'admin':
+                        welcomeText.textContent = 'Welcome back, Admin! Access your administrative controls and system management.';
+                        break;
                 }
             });
+        });
+
+        // Real-time validation feedback
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+
+        emailInput.addEventListener('input', function() {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const formGroup = this.parentElement;
+            
+            if (this.value && !emailRegex.test(this.value)) {
+                formGroup.classList.add('error');
+            } else {
+                formGroup.classList.remove('error');
+            }
+        });
+
+        passwordInput.addEventListener('input', function() {
+            const formGroup = this.parentElement;
+            
+            if (this.value.length > 0 && this.value.length < 6) {
+                formGroup.classList.add('error');
+            } else {
+                formGroup.classList.remove('error');
+            }
         });
 
         // Auto-hide alerts after 5 seconds
@@ -604,31 +769,17 @@
         `;
         document.head.appendChild(style);
 
-        // Form validation feedback
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
-
-        emailInput.addEventListener('input', function() {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (this.value && !emailRegex.test(this.value)) {
-                this.style.borderColor = '#e74c3c';
-            } else {
-                this.style.borderColor = '#e1e5e9';
-            }
-        });
-
-        passwordInput.addEventListener('input', function() {
-            if (this.value.length > 0 && this.value.length < 6) {
-                this.style.borderColor = '#f39c12';
-            } else {
-                this.style.borderColor = '#e1e5e9';
-            }
-        });
-
         // Add click tracking for associate button
         document.querySelector('.top-associate-link').addEventListener('click', function(e) {
-            // Add any tracking or analytics here if needed
             console.log('Associate button clicked');
+        });
+
+        // Initialize with default role selection
+        document.addEventListener('DOMContentLoaded', function() {
+            const defaultRole = document.getElementById('user');
+            if (defaultRole) {
+                defaultRole.checked = true;
+            }
         });
     </script>
 </body>

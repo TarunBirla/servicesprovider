@@ -66,23 +66,27 @@
                                             
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        @foreach($associates as $associate)
-                                        <tr>
-                                            <td class="px-0">{{ $associate->id }}</td>
-                                            <td class="px-0">{{ $associate->name }}</td>
-                                            <td class="px-0">{{ $associate->email }}</td>
-                                            <td class="px-0">{{ $associate->role }}</td>
-                                            <td class="px-0 text-end">
-                                                @if($associate->status)
-                                                <span class="badge bg-success">Active</span>
-                                                @else
-                                                <span class="badge bg-danger">Inactive</span>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
+                                   <tbody>
+                                          @foreach($associates as $associate)
+                                          <tr>
+                                              <td class="px-0">{{ $associate->id }}</td>
+                                              <td class="px-0">{{ $associate->name }}</td>
+                                              <td class="px-0">{{ $associate->email }}</td>
+                                              <td class="px-0">{{ $associate->role }}</td>
+                                              <td class="px-0">
+                                                  <form action="{{ route('admin.user.updateStatus', $associate->id) }}" method="POST" class="d-inline">
+                                                      @csrf
+                                                      @method('PUT')
+                                                      <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                                                          <option value="pending" {{ $associate->status === 'pending' ? 'selected' : '' }}>Pending</option>
+                                                          <option value="approved" {{ $associate->status === 'approved' ? 'selected' : '' }}>Approved</option>
+                                                      </select>
+                                                  </form>
+                                              </td>
+                                          </tr>
+                                          @endforeach
+                                      </tbody>
+
                                     </table>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mt-4">

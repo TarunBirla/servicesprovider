@@ -14,6 +14,9 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\SuggestionController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -93,6 +96,24 @@ Route::get('/get-subindustries/{industry_code}', [LocationController::class, 'ge
 
 Route::get('/', [LoginController::class, 'user_login'])->name('user_login');
 Route::get('/home', [LoginController::class, 'home'])->name('home');
+// routes/web.php
+
+Route::get('/order/thankyou/{serviceId?}', [RatingController::class, 'thankyou'])->name('user.thankyou');
+
+Route::post('/rating/store', [RatingController::class, 'store'])->name('rating.store');
+
+Route::get('/rating/history', [RatingController::class, 'ratingHistory'])->name('rating.history');
+
+Route::prefix('admin/user')->name('admin.user.')->group(function() {
+    Route::get('/', [UserController::class, 'index'])->name('index');
+    Route::get('/create', [UserController::class, 'create'])->name('create');
+    // other routes like store...
+
+    Route::put('/{id}/update-status', [UserController::class, 'updateStatus'])->name('updateStatus');
+});
+
+
+
 
 
 Route::middleware('auth')->group(function () {
@@ -100,10 +121,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/servicelist', [SearchController::class, 'service_details'])->name('searchtable');
     Route::get('/order/service/{id}', [ServiceOrderController::class, 'create'])->name('order.service');
     Route::post('/order/submit', [ServiceOrderController::class, 'store'])->name('order.submit');
-    Route::get('/order/thankyou', function () {
-        return view('user.thankyou');
-    })->name('user.thankyou');
+    // Route::get('/order/thankyou', function () {
+    //     return view('user.thankyou');
+    // })->name('user.thankyou');
 });
+
+
 
 
 Route::get('/userlogin', function () { 
