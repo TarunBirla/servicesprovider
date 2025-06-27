@@ -34,29 +34,30 @@ class ServiceOrderController extends Controller
               'status' => 'Pending',
         ]);
 
+        $service_id = $request->service_id;
         // return redirect()->back()->with('success', 'Order placed successfully!');
-        return redirect()->route('user.thankyou');
+        return redirect()->route('user.thankyou', compact('service_id'));
     }
 
     public function ordertable()
-{
-    $user = Auth::user();
-    $orders = \App\Models\ServiceOrder::where('user_id', $user->id)->get();
+    {
+        $user = Auth::user();
+        $orders = \App\Models\ServiceOrder::where('user_id', $user->id)->get();
 
-    return view('user.orderuser', compact('orders'));
-}
-public function updateStatus(Request $request, $id)
-{
-    $request->validate([
-        'status' => 'required|string|in:Pending,Confirmed,Cancelled,Completed',
-    ]);
+        return view('user.orderuser', compact('orders'));
+    }
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|string|in:Pending,Confirmed,Cancelled,Completed',
+        ]);
 
-    $order = ServiceOrder::findOrFail($id);
-    $order->status = $request->input('status'); // ✅ correctly treated as string
-    $order->save();
+        $order = ServiceOrder::findOrFail($id);
+        $order->status = $request->input('status'); // ✅ correctly treated as string
+        $order->save();
 
-    return redirect()->route('services.orders')->with('success', 'Order status updated successfully!');
-}
+        return redirect()->route('services.orders')->with('success', 'Order status updated successfully!');
+    }
 
 
 

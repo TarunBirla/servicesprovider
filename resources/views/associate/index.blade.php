@@ -16,26 +16,26 @@
         <div class="container-fluid">
           <!--  Row 1 -->
           <div class="row">
-  <!-- Total Services Card -->
-  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
-    <div class="card shadow-sm">
-      <div class="card-body text-center">
-        <h5 class="card-title">Total Services</h5>
-        <h2 class="text-primary" id="totalServices">123</h2>
-      </div>
-    </div>
-  </div>
+          <!-- Total Services Card -->
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+            <div class="card shadow-sm">
+              <div class="card-body text-center">
+                <h5 class="card-title">Total Services</h5>
+                <h2 class="text-primary" id="totalServices">123</h2>
+              </div>
+            </div>
+          </div>
 
-  <!-- Total Orders Card -->
-  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
-    <div class="card shadow-sm">
-      <div class="card-body text-center">
-        <h5 class="card-title">Total Orders</h5>
-        <h2 class="text-success" id="totalOrders">456</h2>
-      </div>
-    </div>
-  </div>
-</div>
+          <!-- Total Orders Card -->
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-4">
+            <div class="card shadow-sm">
+              <div class="card-body text-center">
+                <h5 class="card-title">Total Orders</h5>
+                <h2 class="text-success" id="totalOrders">456</h2>
+              </div>
+            </div>
+          </div>
+        </div>
 
         </div>
       </div>

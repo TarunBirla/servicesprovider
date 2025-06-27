@@ -250,48 +250,43 @@
       <p class="text-muted">Please share your rating to help others</p>
     </div>
 
-    <form method="POST" id="rating-form">
-      <!-- @csrf -->
-      <input type="hidden" name="serviceid" value="{{ $service->id }}">
-      
-      <!-- Star Rating -->
-      <div class="star-rating">
-        <i class="fas fa-star star" data-rating="1"></i>
-        <i class="fas fa-star star" data-rating="2"></i>
-        <i class="fas fa-star star" data-rating="3"></i>
-        <i class="fas fa-star star" data-rating="4"></i>
-        <i class="fas fa-star star" data-rating="5"></i>
-      </div>
-      
-      <div class="selected-rating" id="selected-rating">
-        <i class="fas fa-heart mr-2"></i>
-        You selected <span id="rating-text">0</span> stars
-      </div>
+      <form method="POST" id="rating-form">
+        @csrf
+       <input type="hidden" name="serviceid" value="{{ request('service_id') }}">
 
-      <!-- Name Field -->
-      <div class="form-group">
-        <label for="name" class="font-weight-bold">
-          <i class="fas fa-user mr-2"></i>Your Name
-        </label>
-        <input type="text" name="name" id="name" class="form-control" 
-               placeholder="Enter your name" required>
-      </div>
+        
+        <div class="star-rating">
+          <i class="fas fa-star star" data-rating="1"></i>
+          <i class="fas fa-star star" data-rating="2"></i>
+          <i class="fas fa-star star" data-rating="3"></i>
+          <i class="fas fa-star star" data-rating="4"></i>
+          <i class="fas fa-star star" data-rating="5"></i>
+        </div>
+        
+        <div class="selected-rating" id="selected-rating">
+          <i class="fas fa-heart mr-2"></i>
+          You selected <span id="rating-text">0</span> stars
+        </div>
 
-      <!-- Note Field -->
-      <div class="form-group">
-        <label for="note" class="font-weight-bold">
-          <i class="fas fa-sticky-note mr-2"></i>Additional Notes (Optional)
-        </label>
-        <textarea name="note" id="note" class="form-control" rows="3" 
-                  placeholder="Share your experience and feedback..."></textarea>
-      </div>
+        <!-- Name Field -->
+        <div class="form-group">
+          
+          <input type="hidden" name="name" id="name" value="{{ auth()->user()->name }}" class="form-control">
+        </div>
 
-      <input type="hidden" name="rating" id="rating-value">
-
-      <button type="submit" class="btn-submit-rating" id="submit-btn" disabled>
-        <i class="fas fa-check mr-2"></i>Submit Rating
-      </button>
-    </form>
+        <!-- Note Field -->
+        <div class="form-group">
+          <label for="note" class="font-weight-bold">
+            <i class="fas fa-sticky-note mr-2"></i>Additional Notes (Optional)
+          </label>
+          <textarea name="note" id="note" class="form-control" rows="3" 
+                    placeholder="Share your experience and feedback..."></textarea>
+        </div>
+        <input type="hidden" name="rating" id="rating-value">
+        <button type="submit" class="btn-submit-rating" id="submit-btn" >
+          <i class="fas fa-check mr-2"></i>Submit Rating
+        </button>
+      </form>
 
     <!-- Success Message -->
     <div class="rating-success" id="rating-success">

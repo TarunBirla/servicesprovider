@@ -403,104 +403,104 @@
       <div class="booking-section">
         <h4 class="mb-4"><i class="fas fa-calendar-alt mr-2"></i>Select Date & Time</h4>
          <div class="row">
-    <div class="col-lg-8">
-      
-        <div class="calendar-container">
-          <div id="inline-calendar"></div>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="time-input-container">
-                  <label for="time-slot" class="font-weight-bold mb-2">
-                    <i class="fas fa-clock mr-2"></i>Select Time
-                  </label>
-                  <input type="time" id="time-slot" class="form-control" name="time_slot" placeholder="Select Time">
+          <div class="col-lg-8">
+            
+              <div class="calendar-container">
+                <div id="inline-calendar"></div>
+              </div>
+          </div>
+          <div class="col-lg-4">
+              <div class="time-input-container">
+                        <label for="time-slot" class="font-weight-bold mb-2">
+                          <i class="fas fa-clock mr-2"></i>Select Time
+                        </label>
+                        <input type="time" id="time-slot" class="form-control" name="time_slot" placeholder="Select Time">
+                      </div>
+
+
+
+                  </div>
+              </div> 
+            </div>
+          </div>
+
+          @php
+              $amount = $service->amount ?? 0;
+              $cgst = $amount * 0.09;
+              $sgst = $amount * 0.09;
+              $igst = 0; 
+              $serviceCharges = 0;
+              $otherCharges =  0;
+
+              $grandTotal = $amount + $cgst + $sgst + $serviceCharges + $otherCharges;
+          @endphp
+          <div class="col-lg-6">
+            <div class="confirmation-section">
+              <div class="confirmation-header">
+                <h4><i class="fas fa-check-circle mr-2"></i>Service Confirmation</h4>
+                <p class="confirmation-text">
+                  Select your preferred date and time slot to proceed with the booking. 
+                  The pricing details will be displayed once you make your selection.
+                </p>
+              </div>
+
+              <div class="price-breakdown" id="confirmation-header">
+                <div class="price-row">
+                  <span><i class="fas fa-tag mr-2"></i>Service Amount</span>
+                  <span>₹{{ number_format($amount, 2) }}</span>
                 </div>
 
+                <div class="price-row">
+                  <span><i class="fas fa-cog mr-2"></i>Service Charges</span>
+                  <span>₹{{ number_format($serviceCharges, 2) }}</span>
+                </div>
 
+                <div class="price-row">
+                  <span><i class="fas fa-percent mr-2"></i>CGST (9%)</span>
+                  <span>₹{{ number_format($cgst, 2) }}</span>
+                </div>
 
+                <div class="price-row">
+                  <span><i class="fas fa-percent mr-2"></i>SGST (9%)</span>
+                  <span>₹{{ number_format($sgst, 2) }}</span>
+                </div>
+
+                <div class="price-row">
+                  <span><i class="fas fa-plus mr-2"></i>Other Charges</span>
+                  <span>₹{{ number_format($otherCharges, 2) }}</span>
+                </div>
+
+                <div class="price-row">
+                  <span><i class="fas fa-calculator mr-2"></i><strong>Grand Total</strong></span>
+                  <span><strong>₹{{ number_format($grandTotal, 2) }}</strong></span>
+                </div>
+              </div>
+
+              <form method="POST" action="{{ route('order.submit') }}" id="order-form">
+                @csrf
+                <input type="hidden" name="service_id" value="{{ $service->id }}">
+                <input type="hidden" name="associate_id" value="{{ $service->associate->id }}">
+                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                <input type="hidden" name="amount" value="{{ $service->amount }}">
+                <input type="hidden" id="selectedDate" name="date" required>
+                <input type="hidden" id="selectedTime" name="time" required>
+
+                <div class="form-group">
+                  <label for="note" class="font-weight-bold">
+                    <i class="fas fa-sticky-note mr-2"></i>Additional Notes (Optional)
+                  </label>
+                  <textarea name="note" class="form-control" rows="3" 
+                            placeholder="Any special requirements or notes for the service provider..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg">
+                  <i class="fas fa-check mr-2"></i>Confirm Booking
+                </button>
+              </form>
             </div>
-        </div> 
+          </div>
       </div>
     </div>
-
-    @php
-        $amount = $service->amount ?? 0;
-        $cgst = $amount * 0.09;
-        $sgst = $amount * 0.09;
-        $igst = 0; 
-        $serviceCharges = 0;
-        $otherCharges =  0;
-
-        $grandTotal = $amount + $cgst + $sgst + $serviceCharges + $otherCharges;
-    @endphp
-    <div class="col-lg-6">
-      <div class="confirmation-section">
-        <div class="confirmation-header">
-          <h4><i class="fas fa-check-circle mr-2"></i>Service Confirmation</h4>
-          <p class="confirmation-text">
-            Select your preferred date and time slot to proceed with the booking. 
-            The pricing details will be displayed once you make your selection.
-          </p>
-        </div>
-
-        <div class="price-breakdown" id="confirmation-header">
-          <div class="price-row">
-            <span><i class="fas fa-tag mr-2"></i>Service Amount</span>
-            <span>₹{{ number_format($amount, 2) }}</span>
-          </div>
-
-          <div class="price-row">
-            <span><i class="fas fa-cog mr-2"></i>Service Charges</span>
-            <span>₹{{ number_format($serviceCharges, 2) }}</span>
-          </div>
-
-          <div class="price-row">
-            <span><i class="fas fa-percent mr-2"></i>CGST (9%)</span>
-            <span>₹{{ number_format($cgst, 2) }}</span>
-          </div>
-
-          <div class="price-row">
-            <span><i class="fas fa-percent mr-2"></i>SGST (9%)</span>
-            <span>₹{{ number_format($sgst, 2) }}</span>
-          </div>
-
-          <div class="price-row">
-            <span><i class="fas fa-plus mr-2"></i>Other Charges</span>
-            <span>₹{{ number_format($otherCharges, 2) }}</span>
-          </div>
-
-          <div class="price-row">
-            <span><i class="fas fa-calculator mr-2"></i><strong>Grand Total</strong></span>
-            <span><strong>₹{{ number_format($grandTotal, 2) }}</strong></span>
-          </div>
-        </div>
-
-        <form method="POST" action="{{ route('order.submit') }}" id="order-form">
-          @csrf
-          <input type="hidden" name="service_id" value="{{ $service->id }}">
-          <input type="hidden" name="associate_id" value="{{ $service->associate->id }}">
-          <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-          <input type="hidden" name="amount" value="{{ $service->amount }}">
-          <input type="hidden" id="selectedDate" name="date" required>
-          <input type="hidden" id="selectedTime" name="time" required>
-
-          <div class="form-group">
-            <label for="note" class="font-weight-bold">
-              <i class="fas fa-sticky-note mr-2"></i>Additional Notes (Optional)
-            </label>
-            <textarea name="note" class="form-control" rows="3" 
-                      placeholder="Any special requirements or notes for the service provider..."></textarea>
-          </div>
-
-          <button type="submit" class="btn btn-primary btn-block btn-lg">
-            <i class="fas fa-check mr-2"></i>Confirm Booking
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

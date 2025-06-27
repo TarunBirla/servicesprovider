@@ -465,7 +465,7 @@
             <!-- Category -->
             <div class="col-lg-4 col-md-6">
               <div class="form-group">
-                 <select class="form-control" name="sector_code[]" id="sectorSelect">
+                 <select class="form-control" name="sector_code" id="sectorSelect">
                 <option value="">Select Sector</option>
                 @foreach(DB::table('service_list')->select('sector_code', 'sector_name')->distinct()->get() as $sector)
                   <option value="{{ $sector->sector_code }}">{{ $sector->sector_name }}</option>
@@ -477,17 +477,14 @@
 
             <div class="col-lg-4 col-md-6">
               <div class="form-group">
-                 <select class="form-control" name="industry_code[]" id="industrySelect">
+                 <select class="form-control" name="industry_code" id="industrySelect">
                 <option value="">Select Industry</option>
               </select>
               </div>
             </div>
-
-
-
             <div class="col-lg-4 col-md-6">
               <div class="form-group">
-                  <select class="form-control" name="subindustry_code[]" id="subIndustrySelect">
+                  <select class="form-control" name="subindustry_code" id="subIndustrySelect">
                 <option value="">Select Sub Industry</option>
               </select>
                 
@@ -589,104 +586,144 @@
 <!-- Enhanced JavaScript -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function() {
-  // State change handler
-  $('#state').on('change', function () {
-    const stateId = $(this).val();
-    const $district = $('#district');
-    const $assembly = $('#assembly');
-    
-    if (!stateId) {
-      $district.html('<option value="">🏙️ Select District</option>');
+  $(document).ready(function() {
+    // State change handler
+    $('#state').on('change', function () {
+      const stateId = $(this).val();
+      const $district = $('#district');
+      const $assembly = $('#assembly');
+      
+      if (!stateId) {
+        $district.html('<option value="">🏙️ Select District</option>');
+        $assembly.html('<option value="">🏛️ Select Assembly</option>');
+        return;
+      }
+
+      // Show loading state
+      $district.html('<option value="" class="loading-option">🔄 Loading districts...</option>');
       $assembly.html('<option value="">🏛️ Select Assembly</option>');
-      return;
-    }
 
-    // Show loading state
-    $district.html('<option value="" class="loading-option">🔄 Loading districts...</option>');
-    $assembly.html('<option value="">🏛️ Select Assembly</option>');
-
-    // Fetch districts
-    $.get('/get-districts/' + stateId)
-      .done(function (data) {
-        let options = '<option value="">🏙️ Select District</option>';
-        data.forEach(d => {
-          options += `<option value="${d.id}">${d.name}</option>`;
+      // Fetch districts
+      $.get('/get-districts/' + stateId)
+        .done(function (data) {
+          let options = '<option value="">🏙️ Select District</option>';
+          data.forEach(d => {
+            options += `<option value="${d.id}">${d.name}</option>`;
+          });
+          $district.html(options);
+        })
+        .fail(function() {
+          $district.html('<option value="">❌ Error loading districts</option>');
         });
-        $district.html(options);
-      })
-      .fail(function() {
-        $district.html('<option value="">❌ Error loading districts</option>');
-      });
-  });
+    });
 
-  // District change handler
-  $('#district').on('change', function () {
-    const districtId = $(this).val();
-    const $assembly = $('#assembly');
-    
-    if (!districtId) {
-      $assembly.html('<option value="">🏛️ Select Assembly</option>');
-      return;
-    }
+    // District change handler
+    $('#district').on('change', function () {
+      const districtId = $(this).val();
+      const $assembly = $('#assembly');
+      
+      if (!districtId) {
+        $assembly.html('<option value="">🏛️ Select Assembly</option>');
+        return;
+      }
 
-    // Show loading state
-    $assembly.html('<option value="" class="loading-option">🔄 Loading assemblies...</option>');
+      // Show loading state
+      $assembly.html('<option value="" class="loading-option">🔄 Loading assemblies...</option>');
 
-    // Fetch assemblies
-    $.get('/get-assemblies/' + districtId)
-      .done(function (data) {
-        let options = '<option value="">🏛️ Select Assembly</option>';
-        data.forEach(a => {
-          options += `<option value="${a.id}">${a.name}</option>`;
+      // Fetch assemblies
+      $.get('/get-assemblies/' + districtId)
+        .done(function (data) {
+          let options = '<option value="">🏛️ Select Assembly</option>';
+          data.forEach(a => {
+            options += `<option value="${a.id}">${a.name}</option>`;
+          });
+          $assembly.html(options);
+        })
+        .fail(function() {
+          $assembly.html('<option value="">❌ Error loading assemblies</option>');
         });
-        $assembly.html(options);
-      })
-      .fail(function() {
-        $assembly.html('<option value="">❌ Error loading assemblies</option>');
-      });
-  });
+    });
 
-  // Assembly change handler (if you have parts functionality)
-  $('#assembly').on('change', function () {
-    const assemblyId = $(this).val();
-    const $part = $('#part');
-    
-    if (!assemblyId || !$part.length) return;
+    // Assembly change handler (if you have parts functionality)
+    $('#assembly').on('change', function () {
+      const assemblyId = $(this).val();
+      const $part = $('#part');
+      
+      if (!assemblyId || !$part.length) return;
 
-    $part.html('<option value="" class="loading-option">🔄 Loading parts...</option>');
+      $part.html('<option value="" class="loading-option">🔄 Loading parts...</option>');
 
-    $.get('/get-parts/' + assemblyId)
-      .done(function (data) {
-        let options = '<option value="">Select Part</option>';
-        data.forEach(p => {
-          options += `<option value="${p.id}">${p.name}</option>`;
+      $.get('/get-parts/' + assemblyId)
+        .done(function (data) {
+          let options = '<option value="">Select Part</option>';
+          data.forEach(p => {
+            options += `<option value="${p.id}">${p.name}</option>`;
+          });
+          $part.html(options);
+        })
+        .fail(function() {
+          $part.html('<option value="">❌ Error loading parts</option>');
         });
-        $part.html(options);
-      })
-      .fail(function() {
-        $part.html('<option value="">❌ Error loading parts</option>');
-      });
-  });
+    });
 
-  // Form validation
-  $('form').on('submit', function(e) {
-    const state = $('#state').val();
-    const category = $('select[name="category"]').val();
-    
-    if (!state && !category) {
-      e.preventDefault();
-      alert('⚠️ Please select at least a state or service category to search.');
-      return false;
-    }
-  });
+    // Form validation
+    $('form').on('submit', function(e) {
+      const state = $('#state').val();
+      const category = $('select[name="category"]').val();
+      
+      if (!state && !category) {
+        e.preventDefault();
+        alert('⚠️ Please select at least a state or service category to search.');
+        return false;
+      }
+    });
 
-  // Add loading spinner to search button on form submit
-  $('form').on('submit', function() {
-    const $btn = $('.search-btn');
-    $btn.html('🔄 Searching...').prop('disabled', true);
+    // Add loading spinner to search button on form submit
+    $('form').on('submit', function() {
+      const $btn = $('.search-btn');
+      $btn.html('🔄 Searching...').prop('disabled', true);
+    });
   });
-});
 </script>
+
+<script>
+  $('#sectorSelect').on('change', function () {
+    const sectorCode = $(this).val();
+
+    if (sectorCode) {
+      $.ajax({
+        url: '/get-industries/' + sectorCode,
+        type: 'GET',
+        success: function (data) {
+          $('#industrySelect').html('<option value="">Select Industry</option>');
+          $('#subIndustrySelect').html('<option value="">Select Sub Industry</option>');
+
+          $.each(data.industries, function (key, industry) {
+            $('#industrySelect').append('<option value="' + industry.industry_code + '">' + industry.industry_name + '</option>');
+          });
+        }
+      });
+    }
+  });
+
+  $('#industrySelect').on('change', function () {
+    const industryCode = $(this).val();
+
+    if (industryCode) {
+      $.ajax({
+        url: '/get-subindustries/' + industryCode,
+        type: 'GET',
+        success: function (data) {
+          $('#subIndustrySelect').html('<option value="">Select Sub Industry</option>');
+
+          $.each(data.subindustries, function (key, subindustry) {
+            $('#subIndustrySelect').append('<option value="' + subindustry.subindustry_code + '">' + subindustry.subindustry_name + '</option>');
+          });
+        }
+      });
+    }
+  });
+</script>
+
 
 @endsection
